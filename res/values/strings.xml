@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RhythmTool</string>
+<string-array name="tempoArray"><item>120</item>
+<item>121</item>
+<item>122</item>
+</string-array>
+</resources>

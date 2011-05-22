@@ -68,6 +68,9 @@ public class RhythmToolActivity extends Activity {
 		case R.id.mOption:
 			// インテントの生成
 			Intent intent = new Intent(this, OptionActivity.class);
+			
+			// 現在のテンポを渡すためにインテントに入れる
+			intent.putExtra("CurrentBPM", mShowArea.getTagetBpm());
 
 			// アクティビティの呼び出し
 			startActivityForResult(intent, REQUEST_OPTION);

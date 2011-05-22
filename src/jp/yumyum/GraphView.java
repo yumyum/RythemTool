@@ -206,4 +206,8 @@ class GraphView extends View {
 		REPEAT_INTERVAL = 60000 / targetBPM / 2;
 		reset();
 	}
+	
+	public int getTargetBpm(){
+		return targetBPM;
+	}
 }

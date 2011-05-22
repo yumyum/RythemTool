@@ -74,6 +74,11 @@ class ShowArea extends HorizontalScrollView {
 			graphView.setTargetBpm(bpm);
 		}
 	}
+	
+	public int getTagetBpm(){
+		return graphView.getTargetBpm();
+	}
+	
 	public void stopScroll(){
 		graphView.stopScroll();
 	}

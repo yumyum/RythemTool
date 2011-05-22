@@ -11,7 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 public class RhythmToolActivity extends Activity {
-	ShowArea mShowArea;
+	private ShowArea mShowArea;
+	private LinearLayout rootLayout;
 
 	static final int REQUEST_OPTION = 1;
 
@@ -21,30 +22,32 @@ public class RhythmToolActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		// メインのLinearLayoutを取得
-		LinearLayout linear = (LinearLayout) findViewById(R.id.Linear01);
+		if (rootLayout == null) {
+			rootLayout = (LinearLayout) findViewById(R.id.Linear01);
 
-		// レイアウトパラメータ作成
-		LinearLayout.LayoutParams lParam = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.FILL_PARENT, 1);
+			// レイアウトパラメータ作成
+			LinearLayout.LayoutParams lParam = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT,
+					LinearLayout.LayoutParams.FILL_PARENT, 1);
 
-		// 表示エリア作成、LinearLayoutへ登録
-		// FrameLayoutを使用する
-		FrameLayout fl = new FrameLayout(this);
-		fl.setLayoutParams(lParam);
-		ValueView vv = new ValueView(this);
-		mShowArea = new ShowArea(this, vv);
-		mShowArea.setLayoutParams(lParam);
-		// FrameLayoutにShowAreaとValueViewを追加
-		fl.addView(mShowArea);
-		fl.addView(vv);
-		// LinearLayoutにFrameLayoutを追加
-		linear.addView(fl);
+			// 表示エリア作成、LinearLayoutへ登録
+			// FrameLayoutを使用する
+			FrameLayout fl = new FrameLayout(this);
+			fl.setLayoutParams(lParam);
+			ValueView vv = new ValueView(this);
+			mShowArea = new ShowArea(this, vv);
+			mShowArea.setLayoutParams(lParam);
+			// FrameLayoutにShowAreaとValueViewを追加
+			fl.addView(mShowArea);
+			fl.addView(vv);
+			// LinearLayoutにFrameLayoutを追加
+			rootLayout.addView(fl);
 
-		// タップエリア作成、LinearLayoutへ登録
-		TapArea tmpT = new TapArea(this, mShowArea);
-		tmpT.setLayoutParams(lParam);
-		linear.addView(tmpT);
+			// タップエリア作成、LinearLayoutへ登録
+			TapArea tmpT = new TapArea(this, mShowArea);
+			tmpT.setLayoutParams(lParam);
+			rootLayout.addView(tmpT);
+		}
 
 	}
 
@@ -89,4 +92,12 @@ public class RhythmToolActivity extends Activity {
 			mShowArea.setTargetBpm(bpm);
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		mShowArea.stopScroll();
+		super.onPause();
+	}
+	
+	
 }

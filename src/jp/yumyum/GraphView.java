@@ -58,7 +58,7 @@ class GraphView extends View {
 		Paint paint = new Paint();
 		// 青い線を引く
 		if (nextValueY != 0) {
-			paint.setColor(Color.BLUE);
+			paint.setColor(getResources().getColor(R.color.line_blue));
 			Log.d("GraphView", "lastValueX:" + lastValueX + "  lastValueY:"
 					+ lastValueY + "  cursor:" + cursor + "  nextValueY:"
 					+ nextValueY);
@@ -69,7 +69,7 @@ class GraphView extends View {
 		}
 
 		// ガイド横線を引く
-		paint.setColor(Color.GRAY);
+		paint.setColor(getResources().getColor(R.color.line_gray));
 
 		if (cursor > lastCursor) {
 			mCanvas.drawLine(lastCursor, winHeight / 2, cursor, winHeight / 2,
@@ -182,7 +182,7 @@ class GraphView extends View {
 		mCanvas.drawColor(Color.WHITE);
 		// // 灰色のガイド線を描画
 		Paint p = new Paint();
-		p.setColor(Color.GRAY);
+		p.setColor(getResources().getColor(R.color.line_gray));
 		// mCanvas.drawLine(5, height / 2, width - 5, height / 2, p);
 		mCanvas.drawLine(winWidth / 2, 10, winWidth / 2, winHeight - 10, p);
 		nextGuid = (int) (winWidth * 1.5);

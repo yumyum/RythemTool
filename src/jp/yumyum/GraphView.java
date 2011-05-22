@@ -25,6 +25,7 @@ class GraphView extends View {
 	private int targetBPM = 120;
 	private long lastTime = 0;
 	private ValueView mValueView;
+	private int backCount = 0;
 
 	private int REPEAT_INTERVAL = 60000 / targetBPM / 2;
 
@@ -86,7 +87,6 @@ class GraphView extends View {
 		// targetBPMの４倍の時間タップされなければ停止
 		if (cursor - lastValueX > 8) {
 			this.stopScroll();
-			cursor -= FORWARD_PICS * 8;
 		}
 		/*
 		 * // 背景を白で塗る canvas.drawColor(Color.WHITE);
@@ -118,6 +118,7 @@ class GraphView extends View {
 		if (cursor > lastCursor)
 			lastCursor = cursor;
 		cursor += value;
+		backCount += value;
 		if (cursor + 5 > mWidth) {
 			addWidth(cursor + 5 - mWidth);
 		}
@@ -147,6 +148,7 @@ class GraphView extends View {
 	}
 
 	public void stopScroll() {
+		cursor -= backCount;
 		if (runnable != null) {
 			handler.removeCallbacks(runnable);
 			runnable = null;
@@ -166,6 +168,7 @@ class GraphView extends View {
 			mValueView.setCurrentBPM(Math.abs(bpm));
 		}
 		lastTime = time;
+		backCount = 0;
 	}
 
 	public boolean isScrolling() {

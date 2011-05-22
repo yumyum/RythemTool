@@ -20,7 +20,7 @@ public class OptionActivity extends Activity implements View.OnClickListener{
 
 	public void onClick(View v) {
 		if (v.getId() == R.id.opOKbtn) {
-			// OK‚Ì–ß‚è’l‚Ìw’è
+			// OKã®æˆ»ã‚Šå€¤ã®æŒ‡å®š
 			EditText et = (EditText) findViewById(R.id.bpmEditText);
 			SpannableStringBuilder sb = (SpannableStringBuilder) et.getText();
 			int bpm = Integer.parseInt(sb.toString());
@@ -28,7 +28,7 @@ public class OptionActivity extends Activity implements View.OnClickListener{
 			intent.putExtra("bpm", bpm);
 			setResult(Activity.RESULT_OK, intent);
 
-			// ƒAƒNƒeƒBƒrƒeƒB‚ÌI—¹
+			// ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ã®çµ‚äº†
 			finish();
 		}
 	}

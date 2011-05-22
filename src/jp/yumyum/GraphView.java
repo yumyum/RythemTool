@@ -30,7 +30,7 @@ class GraphView extends View {
 
 	private final int FORWARD_PICS = 1;
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å•‚Æ‚‚³‚ğw’è
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§å¹…ã¨é«˜ã•ã‚’æŒ‡å®š
 	public GraphView(Context context, int width, int height, ValueView vview) {
 		super(context);
 
@@ -41,12 +41,12 @@ class GraphView extends View {
 		lastValueY = height / 2;
 		mValueView = vview;
 
-		// — ‚Å•`‰æ‚·‚é‚½‚ß‚Ìƒrƒbƒgƒ}ƒbƒv‚ğì¬
-		// ‚Æ‚è‚ ‚¦‚¸•‚Í ‰æ–Ê•+800 ‚Æ‚µ‚Ä‚İ‚é
+		// è£ã§æç”»ã™ã‚‹ãŸã‚ã®ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ã‚’ä½œæˆ
+		// ã¨ã‚Šã‚ãˆãšå¹…ã¯ ç”»é¢å¹…+800 ã¨ã—ã¦ã¿ã‚‹
 		mBitmap = Bitmap.createBitmap(width + 800, height,
 				Bitmap.Config.RGB_565);
 		mCanvas.setBitmap(mBitmap);
-		// ”wŒi‚ğ”’‚Å“h‚é
+		// èƒŒæ™¯ã‚’ç™½ã§å¡—ã‚‹
 		initCanvas();
 	}
 
@@ -55,7 +55,7 @@ class GraphView extends View {
 		super.onDraw(canvas);
 
 		Paint paint = new Paint();
-		// Â‚¢ü‚ğˆø‚­
+		// é’ã„ç·šã‚’å¼•ã
 		if (nextValueY != 0) {
 			paint.setColor(Color.BLUE);
 			Log.d("GraphView", "lastValueX:" + lastValueX + "  lastValueY:"
@@ -67,37 +67,37 @@ class GraphView extends View {
 			nextValueY = 0;
 		}
 
-		// ƒKƒCƒh‰¡ü‚ğˆø‚­
+		// ã‚¬ã‚¤ãƒ‰æ¨ªç·šã‚’å¼•ã
 		paint.setColor(Color.GRAY);
 
 		if (cursor > lastCursor) {
 			mCanvas.drawLine(lastCursor, winHeight / 2, cursor, winHeight / 2,
 					paint);
 
-			// ƒKƒCƒhcü‚ğˆø‚­
+			// ã‚¬ã‚¤ãƒ‰ç¸¦ç·šã‚’å¼•ã
 			if (cursor >= nextGuid) {
 				mCanvas.drawLine(nextGuid, 10, nextGuid, winHeight - 10, paint);
 				nextGuid += winWidth;
 			}
 		}
-		// mBitmap‚Ì“à—e‚ğ‰æ–Ê‚ÌƒLƒƒƒ“ƒoƒX‚Ö•`‚­
+		// mBitmapã®å†…å®¹ã‚’ç”»é¢ã®ã‚­ãƒ£ãƒ³ãƒã‚¹ã¸æã
 		canvas.drawBitmap(mBitmap, 0, 0, null);
 
-		// targetBPM‚Ì‚S”{‚ÌŠÔƒ^ƒbƒv‚³‚ê‚È‚¯‚ê‚Î’â~
+		// targetBPMã®ï¼”å€ã®æ™‚é–“ã‚¿ãƒƒãƒ—ã•ã‚Œãªã‘ã‚Œã°åœæ­¢
 		if (cursor - lastValueX > 8) {
 			this.stopScroll();
 			cursor -= FORWARD_PICS * 8;
 		}
 		/*
-		 * // ”wŒi‚ğ”’‚Å“h‚é canvas.drawColor(Color.WHITE);
+		 * // èƒŒæ™¯ã‚’ç™½ã§å¡—ã‚‹ canvas.drawColor(Color.WHITE);
 		 * 
-		 * // ŠDF‚Ìü‚ğˆø‚­ Paint paint = new Paint(); paint.setColor(Color.GRAY);
+		 * // ç°è‰²ã®ç·šã‚’å¼•ã Paint paint = new Paint(); paint.setColor(Color.GRAY);
 		 * canvas.drawLine(5, 100, mWidth - 5, 100, paint); //
-		 * ƒXƒNƒ[ƒ‹‚µ‚Ä‚¢‚é‚Ì‚ª‚í‚©‚é‚æ‚¤‚É‰æ–Ê•‚²‚Æ‚Écü‚ğ“ü‚ê‚Ä‚İ‚é for (int x = winWidth / 2; x < mWidth
+		 * ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã—ã¦ã„ã‚‹ã®ãŒã‚ã‹ã‚‹ã‚ˆã†ã«ç”»é¢å¹…ã”ã¨ã«ç¸¦ç·šã‚’å…¥ã‚Œã¦ã¿ã‚‹ for (int x = winWidth / 2; x < mWidth
 		 * - 5; x += winWidth) { canvas.drawLine(x, 10, x, winHeight - 10,
 		 * paint); }
 		 * 
-		 * // Â‚ÅƒOƒ‰ƒt(‚É‚È‚é—\’è)‚Ìü‚ğˆø‚­ paint.setColor(Color.BLUE); canvas.drawLine(5,
+		 * // é’ã§ã‚°ãƒ©ãƒ•(ã«ãªã‚‹äºˆå®š)ã®ç·šã‚’å¼•ã paint.setColor(Color.BLUE); canvas.drawLine(5,
 		 * 80, cursor, 80, paint);
 		 */
 	}
@@ -129,11 +129,11 @@ class GraphView extends View {
 				@Override
 				public void run() {
 
-					// 2.Ÿ‰ñˆ—‚ğƒZƒbƒg
+					// 2.æ¬¡å›å‡¦ç†ã‚’ã‚»ãƒƒãƒˆ
 					handler.postDelayed(this, REPEAT_INTERVAL);
 
-					// 3.ŒJ‚è•Ô‚µˆ—
-					// ’Pƒ‚ÉforwordCursol(4)‚Å‚à‚¢‚¢‚ª‚±‚¤‚¢‚¤‘‚«•û‚à‚Å‚«‚é‚Æ‚¢‚¤‚±‚Æ‚Å
+					// 3.ç¹°ã‚Šè¿”ã—å‡¦ç†
+					// å˜ç´”ã«forwordCursol(4)ã§ã‚‚ã„ã„ãŒã“ã†ã„ã†æ›¸ãæ–¹ã‚‚ã§ãã‚‹ã¨ã„ã†ã“ã¨ã§
 					GraphView.this.forwordCursol(FORWARD_PICS);
 					requestLayout();
 					invalidate();
@@ -141,7 +141,7 @@ class GraphView extends View {
 				}
 			};
 
-			// 1.‰‰ñÀs
+			// 1.åˆå›å®Ÿè¡Œ
 			handler.postDelayed(runnable, REPEAT_INTERVAL);
 		}
 	}
@@ -150,11 +150,11 @@ class GraphView extends View {
 		if (runnable != null) {
 			handler.removeCallbacks(runnable);
 			runnable = null;
-			// ShowArea‚ğæ“¾‚µ‚ÄƒXƒNƒ[ƒ‹ƒo[•\¦
+			// ShowAreaã‚’å–å¾—ã—ã¦ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼è¡¨ç¤º
 			ShowArea parent = (ShowArea) getParent();
 			parent.setHorizontalScrollBarEnabled(true);
 
-			// ‘O‰ñ‚Ìƒ^ƒbƒvŠÔ‚ğƒNƒŠƒA
+			// å‰å›ã®ã‚¿ãƒƒãƒ—æ™‚é–“ã‚’ã‚¯ãƒªã‚¢
 			lastTime = 0;
 		}
 	}
@@ -177,7 +177,7 @@ class GraphView extends View {
 
 	private void initCanvas() {
 		mCanvas.drawColor(Color.WHITE);
-		// // ŠDF‚ÌƒKƒCƒhü‚ğ•`‰æ
+		// // ç°è‰²ã®ã‚¬ã‚¤ãƒ‰ç·šã‚’æç”»
 		Paint p = new Paint();
 		p.setColor(Color.GRAY);
 		// mCanvas.drawLine(5, height / 2, width - 5, height / 2, p);

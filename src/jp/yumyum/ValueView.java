@@ -22,19 +22,19 @@ public class ValueView extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		// ^‚ñ’†ã•”‚ÌBPM•½‹Ï’l‚Ì•\¦
+		// çœŸã‚“ä¸­ä¸Šéƒ¨ã®BPMå¹³å‡å€¤ã®è¡¨ç¤º
 		Paint p = new Paint();
 		p.setTextSize(40);
 		p.setTextAlign(Align.CENTER);
 		p.setAntiAlias(true);
 		canvas.drawText(String.valueOf(averageBPM), getWidth() / 2, 40, p);
 
-		// ¶‰º‚Ì–Ú•WBPM‚Ì•\¦
+		// å·¦ä¸‹ã®ç›®æ¨™BPMã®è¡¨ç¤º
 		p.setTextSize(20);
 		p.setTextAlign(Align.LEFT);
 		canvas.drawText(String.valueOf(targetBPM), 5, getHeight() * 0.75f, p);
 
-		// ‰Eã‚Ì¡‰ñ‚ÌBPM‚Ì•\¦
+		// å³ä¸Šã®ä»Šå›ã®BPMã®è¡¨ç¤º
 		p.setTextAlign(Align.RIGHT);
 		canvas.drawText(String.valueOf(currentBPM), getWidth() - 5, 40, p);
 
@@ -42,31 +42,31 @@ public class ValueView extends View {
 	}
 
 	public void setTargetBPM(int value) {
-		// –Ú•WBPM‚ğİ’è
+		// ç›®æ¨™BPMã‚’è¨­å®š
 		targetBPM = value;
-		// •½‹Ï’l‚ğo‚·‚½‚ß‚Ìƒoƒbƒtƒ@‚ğ–Ú•W’l‚Å‰Šú‰»
+		// å¹³å‡å€¤ã‚’å‡ºã™ãŸã‚ã®ãƒãƒƒãƒ•ã‚¡ã‚’ç›®æ¨™å€¤ã§åˆæœŸåŒ–
 		for (int i = 0; i < bufLen - 1; i++) {
 			buf[i] = targetBPM;
 		}
-		// Å‰‚Ì’l‚ğ“ü‚ê‚éƒXƒy[ƒX‚Ìˆ—
+		// æœ€åˆã®å€¤ã‚’å…¥ã‚Œã‚‹ã‚¹ãƒšãƒ¼ã‚¹ã®å‡¦ç†
 		index = bufLen - 1;
 		buf[index] = 0;
-		// •½‹Ï’l‚ğo‚·‚½‚ß‚É‡Œv‚ğŒvZ
+		// å¹³å‡å€¤ã‚’å‡ºã™ãŸã‚ã«åˆè¨ˆã‚’è¨ˆç®—
 		sum = targetBPM*(bufLen-1);
 		currentBPM = 0;
 		averageBPM = 0;
 	}
 
 	public void setCurrentBPM(int value) {
-		// ¡‰ñ‚ÌBPM‚ğİ’è
+		// ä»Šå›ã®BPMã‚’è¨­å®š
 		currentBPM = value;
-		// •½‹Ï’l‚ÌŒvZ‚ğ‚µ‚È‚ª‚çƒoƒbƒtƒ@‚ğXV
+		// å¹³å‡å€¤ã®è¨ˆç®—ã‚’ã—ãªãŒã‚‰ãƒãƒƒãƒ•ã‚¡ã‚’æ›´æ–°
 		sum-=buf[index];
 		buf[index] = currentBPM;
 		sum+=buf[index];
-		// •½‹Ï’l‚ğİ’è
+		// å¹³å‡å€¤ã‚’è¨­å®š
 		averageBPM = sum/bufLen;
-		// ƒoƒbƒtƒ@‚ÌƒCƒ“ƒfƒbƒNƒX‚ğXV
+		// ãƒãƒƒãƒ•ã‚¡ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æ›´æ–°
 		index++;
 		index %= bufLen;
 	}

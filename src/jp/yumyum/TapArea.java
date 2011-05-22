@@ -27,11 +27,11 @@ class TapArea extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		// View‚Ì‚‚³‚Æ•‚ğæ“¾
+		// Viewã®é«˜ã•ã¨å¹…ã‚’å–å¾—
 		int height = this.getHeight();
 		int width = this.getWidth();
 
-		// ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚ğì¬‚µƒyƒCƒ“ƒg‚ÉƒZƒbƒg‚µ•`‰æ
+		// ã‚°ãƒ©ãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ä½œæˆã—ãƒšã‚¤ãƒ³ãƒˆã«ã‚»ãƒƒãƒˆã—æç”»
 		LinearGradient gr = new LinearGradient(0, 0, 0, (height) / 2,
 				new int[] { 0xFFbbbbbb, 0xffffffff, }, null,
 				Shader.TileMode.CLAMP);
@@ -39,9 +39,9 @@ class TapArea extends View {
 		p.setShader(gr);
 		canvas.drawPaint(p);
 
-		// Šp‚ªŠÛ‚Ü‚Á‚½lŠp‚ğ•\¦Bü‚ÌF‚â•‚àw’èB
+		// è§’ãŒä¸¸ã¾ã£ãŸå››è§’ã‚’è¡¨ç¤ºã€‚ç·šã®è‰²ã‚„å¹…ã‚‚æŒ‡å®šã€‚
 		p = new Paint();
-		// ƒAƒ“ƒ`ƒGƒCƒŠƒAƒX‚ğ—LŒø‚É‚·‚é
+		// ã‚¢ãƒ³ãƒã‚¨ã‚¤ãƒªã‚¢ã‚¹ã‚’æœ‰åŠ¹ã«ã™ã‚‹
 		p.setAntiAlias(true);
 		RectF rect = new RectF(20, 20, width - 20, height - 20);
 		p.setStyle(Paint.Style.STROKE);
@@ -49,7 +49,7 @@ class TapArea extends View {
 		p.setStrokeWidth(7);
 		canvas.drawRoundRect(rect, 30, 30, p);
 
-		// "Tap Here"‚Æ‚¢‚¤•¶š‚ğ•\¦‚·‚é
+		// "Tap Here"ã¨ã„ã†æ–‡å­—ã‚’è¡¨ç¤ºã™ã‚‹
 		p.setColor(Color.BLACK);
 		p.setStyle(Paint.Style.FILL);
 		p.setTextAlign(Paint.Align.CENTER);
@@ -61,14 +61,14 @@ class TapArea extends View {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		// ƒ^ƒbƒv‚³‚ê‚½‚Ìæ“¾
+		// ã‚¿ãƒƒãƒ—ã•ã‚ŒãŸæ™‚åˆ»ã®å–å¾—
 		long eTime = event.getEventTime();
-		// Å‰‚Ìˆê‰ñ‚ÍŒvZ‚µ‚È‚¢(‚Å‚«‚È‚¢)
+		// æœ€åˆã®ä¸€å›ã¯è¨ˆç®—ã—ãªã„(ã§ããªã„)
 		if (lastETime > 0) {
 			long interval = eTime - lastETime;
-			// BPM‚ğŒvZ
+			// BPMã‚’è¨ˆç®—
 			long bpm = 60000 / interval;
-			// ‚Æ‚è‚ ‚¦‚¸Log‚Éo—Í
+			// ã¨ã‚Šã‚ãˆãšLogã«å‡ºåŠ›
 			Log.d("TapArea", "onTaouchEvent  interval:" + interval + " bpm:"
 					+ bpm);
 		}

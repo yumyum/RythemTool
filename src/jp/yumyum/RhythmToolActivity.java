@@ -21,29 +21,29 @@ public class RhythmToolActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		// ƒƒCƒ“‚ÌLinearLayout‚ğæ“¾
+		// ãƒ¡ã‚¤ãƒ³ã®LinearLayoutã‚’å–å¾—
 		if (rootLayout == null) {
 			rootLayout = (LinearLayout) findViewById(R.id.Linear01);
 
-			// ƒŒƒCƒAƒEƒgƒpƒ‰ƒ[ƒ^ì¬
+			// ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ä½œæˆ
 			LinearLayout.LayoutParams lParam = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.FILL_PARENT,
 					LinearLayout.LayoutParams.FILL_PARENT, 1);
 
-			// •\¦ƒGƒŠƒAì¬ALinearLayout‚Ö“o˜^
-			// FrameLayout‚ğg—p‚·‚é
+			// è¡¨ç¤ºã‚¨ãƒªã‚¢ä½œæˆã€LinearLayoutã¸ç™»éŒ²
+			// FrameLayoutã‚’ä½¿ç”¨ã™ã‚‹
 			FrameLayout fl = new FrameLayout(this);
 			fl.setLayoutParams(lParam);
 			ValueView vv = new ValueView(this);
 			mShowArea = new ShowArea(this, vv);
 			mShowArea.setLayoutParams(lParam);
-			// FrameLayout‚ÉShowArea‚ÆValueView‚ğ’Ç‰Á
+			// FrameLayoutã«ShowAreaã¨ValueViewã‚’è¿½åŠ 
 			fl.addView(mShowArea);
 			fl.addView(vv);
-			// LinearLayout‚ÉFrameLayout‚ğ’Ç‰Á
+			// LinearLayoutã«FrameLayoutã‚’è¿½åŠ 
 			rootLayout.addView(fl);
 
-			// ƒ^ƒbƒvƒGƒŠƒAì¬ALinearLayout‚Ö“o˜^
+			// ã‚¿ãƒƒãƒ—ã‚¨ãƒªã‚¢ä½œæˆã€LinearLayoutã¸ç™»éŒ²
 			TapArea tmpT = new TapArea(this, mShowArea);
 			tmpT.setLayoutParams(lParam);
 			rootLayout.addView(tmpT);
@@ -67,28 +67,28 @@ public class RhythmToolActivity extends Activity {
 			mShowArea.reset();
 			return true;
 		case R.id.mOption:
-			// ƒCƒ“ƒeƒ“ƒg‚Ì¶¬
+			// ã‚¤ãƒ³ãƒ†ãƒ³ãƒˆã®ç”Ÿæˆ
 			Intent intent = new Intent(this, OptionActivity.class);
 
-			// ƒAƒNƒeƒBƒrƒeƒB‚ÌŒÄ‚Ño‚µ
+			// ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ã®å‘¼ã³å‡ºã—
 			startActivityForResult(intent, REQUEST_OPTION);
 			return true;
 		}
 		return false;
 	}
 
-	// ƒAƒNƒeƒBƒrƒeƒBŒÄ‚Ño‚µŒ‹‰Ê‚Ìæ“¾
+	// ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£å‘¼ã³å‡ºã—çµæœã®å–å¾—
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent intent) {
 		if (requestCode == REQUEST_OPTION && resultCode == RESULT_OK) {
-			// ƒCƒ“ƒeƒ“ƒg‚©‚ç‚Ìƒpƒ‰ƒ[ƒ^æ“¾
+			// ã‚¤ãƒ³ãƒ†ãƒ³ãƒˆã‹ã‚‰ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å–å¾—
 			int bpm = -1;
 			Bundle extras = intent.getExtras();
 			if (extras != null)
 				bpm = extras.getInt("bpm");
 
-			// BPM‚Ìİ’è
+			// BPMã®è¨­å®š
 			mShowArea.setTargetBpm(bpm);
 		}
 	}

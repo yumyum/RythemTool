@@ -20,7 +20,7 @@ class ShowArea extends HorizontalScrollView {
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		Log.d("ShowArea", "onLayout");
 
-		// ©“®ƒXƒNƒ[ƒ‹’†‚È‚çí‚ÉGraphView‚Ì‰E’[‚ğ•\¦
+		// è‡ªå‹•ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ä¸­ãªã‚‰å¸¸ã«GraphViewã®å³ç«¯ã‚’è¡¨ç¤º
 		if (graphView != null && graphView.isScrolling()) {
 			scrollTo(graphView.getWidth() - this.getWidth(), 0);
 		}
@@ -29,7 +29,7 @@ class ShowArea extends HorizontalScrollView {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		// ©“®ƒXƒNƒ[ƒ‹’†‚È‚çƒ^ƒbƒ`‚³‚ê‚Ä‚à‰½‚à‚µ‚È‚¢
+		// è‡ªå‹•ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ä¸­ãªã‚‰ã‚¿ãƒƒãƒã•ã‚Œã¦ã‚‚ä½•ã‚‚ã—ãªã„
 		if (graphView.isScrolling()) {
 			return true;
 		}
@@ -39,7 +39,7 @@ class ShowArea extends HorizontalScrollView {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		Log.d("ShowArea", "onDraw");
-		// graphView‚ª‹ó‚È‚çi‰‚ß‚ÄŒÄ‚Ño‚³‚ê‚é‚È‚çjì¬‚µ‚ÄAq‹ŸView‚Æ‚µ‚Ä“o˜^
+		// graphViewãŒç©ºãªã‚‰ï¼ˆåˆã‚ã¦å‘¼ã³å‡ºã•ã‚Œã‚‹ãªã‚‰ï¼‰ä½œæˆã—ã¦ã€å­ä¾›Viewã¨ã—ã¦ç™»éŒ²
 		if (graphView == null) {
 			graphView = new GraphView(this.getContext(), this.getWidth(),
 					this.getHeight(), vv);
@@ -54,11 +54,11 @@ class ShowArea extends HorizontalScrollView {
 		if (graphView.isScrolling()) {
 			// scrolling = false;
 			// graphView.stopScroll();
-			// // ©“®ƒXƒNƒ[ƒ‹‚ª~‚Ü‚Á‚½‚çƒXƒNƒ[ƒ‹ƒo[•\¦
+			// // è‡ªå‹•ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãŒæ­¢ã¾ã£ãŸã‚‰ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼è¡¨ç¤º
 			// this.setHorizontalScrollBarEnabled(true);
 		} else {
 			graphView.startScroll();
-			// ©“®ƒXƒNƒ[ƒ‹’†‚ÍƒXƒNƒ[ƒ‹ƒo[”ñ•\¦
+			// è‡ªå‹•ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ä¸­ã¯ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼éè¡¨ç¤º
 			this.setHorizontalScrollBarEnabled(false);
 			requestLayout();
 		}

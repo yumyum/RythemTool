@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:title="オプション" android:id="@+id/mOption"></item>
-<item android:title="リセット" android:id="@+id/mReset"></item>
+<item android:title="@string/option" android:id="@+id/mOption"></item>
+<item android:title="@string/reset" android:id="@+id/mReset"></item>
 </menu>

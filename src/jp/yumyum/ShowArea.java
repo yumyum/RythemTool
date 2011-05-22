@@ -18,7 +18,6 @@ class ShowArea extends HorizontalScrollView {
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		Log.d("ShowArea", "onLayout");
 
 		// 自動スクロール中なら常にGraphViewの右端を表示
 		if (graphView != null && graphView.isScrolling()) {
@@ -38,7 +37,6 @@ class ShowArea extends HorizontalScrollView {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		Log.d("ShowArea", "onDraw");
 		// graphViewが空なら（初めて呼び出されるなら）作成して、子供Viewとして登録
 		if (graphView == null) {
 			graphView = new GraphView(this.getContext(), this.getWidth(),
@@ -80,6 +78,7 @@ class ShowArea extends HorizontalScrollView {
 	}
 	
 	public void stopScroll(){
-		graphView.stopScroll();
+		if(graphView != null)
+			graphView.stopScroll();
 	}
 }

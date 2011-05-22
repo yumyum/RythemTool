@@ -97,7 +97,8 @@ public class RhythmToolActivity extends Activity {
 
 	@Override
 	protected void onPause() {
-		mShowArea.stopScroll();
+		if (mShowArea != null)
+			mShowArea.stopScroll();
 		super.onPause();
 	}
 	

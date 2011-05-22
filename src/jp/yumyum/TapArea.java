@@ -75,9 +75,7 @@ class TapArea extends View {
 				long interval = eTime - lastETime;
 				// BPMを計算
 				long bpm = 60000 / interval;
-				// とりあえずLogに出力
-				Log.d("TapArea", "onTaouchEvent  interval:" + interval + " bpm:"
-						+ bpm);
+
 			}
 			lastETime = eTime;
 			sArea.tapEvent(eTime);
@@ -89,8 +87,6 @@ class TapArea extends View {
 	        break;
 
 	    }
-		
-		
 		return super.onTouchEvent(event);
 	}
 

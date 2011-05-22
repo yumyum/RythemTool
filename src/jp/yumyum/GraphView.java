@@ -59,9 +59,7 @@ class GraphView extends View {
 		// 青い線を引く
 		if (nextValueY != 0) {
 			paint.setColor(getResources().getColor(R.color.line_blue));
-			Log.d("GraphView", "lastValueX:" + lastValueX + "  lastValueY:"
-					+ lastValueY + "  cursor:" + cursor + "  nextValueY:"
-					+ nextValueY);
+
 			mCanvas.drawLine(lastValueX, lastValueY, cursor, nextValueY, paint);
 			lastValueX = cursor;
 			lastValueY = nextValueY;

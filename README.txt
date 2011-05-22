@@ -6,8 +6,8 @@ http://blog.livedoor.jp/nobia1-android/
 Date: Sun 03/27/2011
 
 I. Description
-  Androidアプリ
-     タップしてリズムを取り、グラフ表示する
+  Android繧｢繝励Μ
+     繧ｿ繝�繝励＠縺ｦ繝ｪ繧ｺ繝繧貞叙繧翫√げ繝ｩ繝戊｡ｨ遉ｺ縺吶ｋ
     
 II. Contatct
   TwitterID : yu_yum (http://twitter.com/yu_yum)

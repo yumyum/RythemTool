@@ -6,4 +6,6 @@
 <string name="reset">Reset</string>
 <string name="tempo">Tempo</string>
 <string name="tempo_caution">Tempo range : 1 to 999</string>
+<string name="EndOfGraphArea">End of GraphArea</string>
+<string name="pleaseReset">Prese Reset from menu</string>
 </resources>

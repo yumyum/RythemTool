@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 public class RhythmToolActivity extends Activity {
 	private ShowArea mShowArea;
+	private TapArea mTapArea;
 	private LinearLayout rootLayout;
 
 	static final int REQUEST_OPTION = 1;
@@ -43,9 +44,9 @@ public class RhythmToolActivity extends Activity {
 			rootLayout.addView(fl);
 
 			// タップエリア作成、LinearLayoutへ登録
-			TapArea tmpT = new TapArea(this, mShowArea);
-			tmpT.setLayoutParams(lParam);
-			rootLayout.addView(tmpT);
+			mTapArea = new TapArea(this, mShowArea);
+			mTapArea.setLayoutParams(lParam);
+			rootLayout.addView(mTapArea);
 		}
 
 	}
@@ -68,7 +69,7 @@ public class RhythmToolActivity extends Activity {
 		case R.id.mOption:
 			// インテントの生成
 			Intent intent = new Intent(this, OptionActivity.class);
-			
+
 			// 現在のテンポを渡すためにインテントに入れる
 			intent.putExtra("CurrentBPM", mShowArea.getTagetBpm());
 
@@ -101,6 +102,5 @@ public class RhythmToolActivity extends Activity {
 			mShowArea.stopScroll();
 		super.onPause();
 	}
-	
-	
+
 }

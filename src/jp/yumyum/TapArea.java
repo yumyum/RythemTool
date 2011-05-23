@@ -14,17 +14,17 @@ import android.view.View;
 
 class TapArea extends View {
 	private ShowArea sArea;
-	private long lastETime;
 	private int lineColor;
+	private String tapAreaText;
 
 	public TapArea(Context context, ShowArea sa) {
 		super(context);
-		lineColor = Color.parseColor("#dddddd");
-		lastETime = -1;
+		this.lineColor = Color.parseColor("#dddddd");
+		this.tapAreaText = "Tap Here";
 
 		sArea = sa;
 	}
-	
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
@@ -58,35 +58,27 @@ class TapArea extends View {
 		p.setTextSize(40);
 		p.setStrokeWidth(2);
 		p.setTypeface(Typeface.SANS_SERIF);
-		canvas.drawText("Tap Here", width / 2, height / 2 + 10, p);
+		canvas.drawText(tapAreaText, width / 2, height / 2 + 10, p);
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-	    switch (event.getAction()) {
-	    case MotionEvent.ACTION_DOWN:
-	    	// タップ中の枠の色
-	    	lineColor = Color.parseColor("#bbbbbb");
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			// タップ中の枠の色
+			lineColor = Color.parseColor("#bbbbbb");
 			this.invalidate();
 			// タップされた時刻の取得
 			long eTime = event.getEventTime();
-			// 最初の一回は計算しない(できない)
-			if (lastETime > 0) {
-				long interval = eTime - lastETime;
-				// BPMを計算
-				long bpm = 60000 / interval;
-
-			}
-			lastETime = eTime;
 			sArea.tapEvent(eTime);
 			return true;
 		case MotionEvent.ACTION_UP:
-	    	// タップを離したときの枠の色
-	    	lineColor = Color.parseColor("#dddddd");
+			// タップを離したときの枠の色
+			lineColor = Color.parseColor("#dddddd");
 			this.invalidate();
-	        break;
+			break;
 
-	    }
+		}
 		return super.onTouchEvent(event);
 	}
 

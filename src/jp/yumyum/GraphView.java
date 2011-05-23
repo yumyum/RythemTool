@@ -1,5 +1,6 @@
 package jp.yumyum;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -8,6 +9,7 @@ import android.graphics.Paint;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 class GraphView extends View {
 	private int winHeight;
@@ -30,6 +32,7 @@ class GraphView extends View {
 	private int REPEAT_INTERVAL = 60000 / targetBPM / 2;
 
 	private final int FORWARD_PICS = 1;
+	private final int GRAPH_MAX_WIDTH = 10000;
 
 	// コンストラクタで幅と高さを指定
 	public GraphView(Context context, int width, int height, ValueView vview) {
@@ -44,7 +47,7 @@ class GraphView extends View {
 
 		// 裏で描画するためのビットマップを作成
 		// とりあえず幅は 画面幅+800 としてみる
-		mBitmap = Bitmap.createBitmap(width + 800, height,
+		mBitmap = Bitmap.createBitmap(GRAPH_MAX_WIDTH, height,
 				Bitmap.Config.RGB_565);
 		mCanvas.setBitmap(mBitmap);
 		// 背景を白で塗る
@@ -113,6 +116,9 @@ class GraphView extends View {
 	}
 
 	private void forwordCursol(int value) {
+		if (cursor + 5 >= GRAPH_MAX_WIDTH) {
+			endOfGraphArea();
+		}
 		if (cursor > lastCursor)
 			lastCursor = cursor;
 		cursor += value;
@@ -122,7 +128,23 @@ class GraphView extends View {
 		}
 	}
 
-	public void startScroll() {
+	private void endOfGraphArea() {
+		backCount = 0;
+		stopScroll();
+		AlertDialog.Builder dlg;
+        dlg = new AlertDialog.Builder(this.getContext());
+        dlg.setTitle(R.string.EndOfGraphArea);
+        dlg.setMessage(R.string.pleaseReset);
+        dlg.show();
+        
+		return;
+	}
+
+	public boolean startScroll() {
+		if (cursor + 5 >= GRAPH_MAX_WIDTH) {
+			endOfGraphArea();
+			return false;
+		}
 		if (runnable == null) {
 			runnable = new Runnable() {
 				@Override
@@ -143,10 +165,12 @@ class GraphView extends View {
 			// 1.初回実行
 			handler.postDelayed(runnable, REPEAT_INTERVAL);
 		}
+		return true;
 	}
 
 	public void stopScroll() {
 		cursor -= backCount;
+		backCount = 0;
 		if (runnable != null) {
 			handler.removeCallbacks(runnable);
 			runnable = null;
@@ -160,6 +184,7 @@ class GraphView extends View {
 	}
 
 	public void tap(long time) {
+		// 2回目以降のタップでBPMを計算
 		if (lastTime != 0) {
 			int bpm = (int) (60000 / (lastTime - time));
 			nextValueY = bpm + targetBPM + winHeight / 2;
@@ -204,8 +229,8 @@ class GraphView extends View {
 		REPEAT_INTERVAL = 60000 / targetBPM / 2;
 		reset();
 	}
-	
-	public int getTargetBpm(){
+
+	public int getTargetBpm() {
 		return targetBPM;
 	}
 }

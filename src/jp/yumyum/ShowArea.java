@@ -55,12 +55,14 @@ class ShowArea extends HorizontalScrollView {
 			// // 自動スクロールが止まったらスクロールバー表示
 			// this.setHorizontalScrollBarEnabled(true);
 		} else {
-			graphView.startScroll();
+			if (graphView.startScroll() == false)
+				return;
 			// 自動スクロール中はスクロールバー非表示
 			this.setHorizontalScrollBarEnabled(false);
 			requestLayout();
 		}
 		graphView.tap(time);
+		return;
 	}
 
 	public void reset() {
@@ -72,13 +74,13 @@ class ShowArea extends HorizontalScrollView {
 			graphView.setTargetBpm(bpm);
 		}
 	}
-	
-	public int getTagetBpm(){
+
+	public int getTagetBpm() {
 		return graphView.getTargetBpm();
 	}
-	
-	public void stopScroll(){
-		if(graphView != null)
+
+	public void stopScroll() {
+		if (graphView != null)
 			graphView.stopScroll();
 	}
 }

@@ -6,4 +6,6 @@
 <string name="reset">リセット</string>
 <string name="tempo">テンポ</string>
 <string name="tempo_caution">テンポは1から999の間で設定してください。</string>
+<string name="EndOfGraphArea">グラフエリアの終端です</string>
+<string name="pleaseReset">メニューからリセットしてください</string>
 </resources>

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RhythmTool</string>
+	<string name="app_name">RhythmTool</string>
 
-<string name="option">Option</string>
-<string name="reset">Reset</string>
-<string name="tempo">Tempo</string>
-<string name="tempo_caution">Tempo range : 1 to 999</string>
-<string name="EndOfGraphArea">End of GraphArea</string>
-<string name="pleaseReset">Prese Reset from menu</string>
+	<string name="option">Option</string>
+	<string name="reset">Reset</string>
+	<string name="tempo">Tempo</string>
+	<string name="tempo_caution">Tempo range : 1 to 999</string>
+	<string name="EndOfGraphArea">End of GraphArea</string>
+	<string name="pleaseReset">Prese Reset from menu</string>
+	<string name="about">About</string>
+	<string name="versionNo">1.03</string>
+	<string name="help">Help</string>
 </resources>

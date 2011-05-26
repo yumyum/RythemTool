@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -20,6 +21,7 @@ public class RhythmToolActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main);
 		// メインのLinearLayoutを取得
 		if (rootLayout == null) {
@@ -62,19 +64,27 @@ public class RhythmToolActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
+		Intent intent;
 		switch (item.getItemId()) {
 		case R.id.mReset:
 			mShowArea.reset();
 			return true;
 		case R.id.mOption:
 			// インテントの生成
-			Intent intent = new Intent(this, OptionActivity.class);
+			intent = new Intent(this, OptionActivity.class);
 
 			// 現在のテンポを渡すためにインテントに入れる
 			intent.putExtra("CurrentBPM", mShowArea.getTagetBpm());
 
 			// アクティビティの呼び出し
 			startActivityForResult(intent, REQUEST_OPTION);
+			return true;
+		case R.id.mAbout:
+			// インテントの生成
+			intent = new Intent(this, AboutActivity.class);
+
+			// アクティビティの呼び出し
+			startActivity(intent);
 			return true;
 		}
 		return false;

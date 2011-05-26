@@ -132,11 +132,11 @@ class GraphView extends View {
 		backCount = 0;
 		stopScroll();
 		AlertDialog.Builder dlg;
-        dlg = new AlertDialog.Builder(this.getContext());
-        dlg.setTitle(R.string.EndOfGraphArea);
-        dlg.setMessage(R.string.pleaseReset);
-        dlg.show();
-        
+		dlg = new AlertDialog.Builder(this.getContext());
+		dlg.setTitle(R.string.EndOfGraphArea);
+		dlg.setMessage(R.string.pleaseReset);
+		dlg.show();
+
 		return;
 	}
 

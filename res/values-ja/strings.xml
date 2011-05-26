@@ -8,4 +8,5 @@
 <string name="tempo_caution">テンポは1から999の間で設定してください。</string>
 <string name="EndOfGraphArea">グラフエリアの終端です</string>
 <string name="pleaseReset">メニューからリセットしてください</string>
+<string name="help">使い方</string>
 </resources>

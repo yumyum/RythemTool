@@ -23,6 +23,6 @@
 	<TextView android:text="" android:id="@+id/supportLink"
 		android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="20dip"></TextView>
 
-	<Button android:text="@string/help" android:id="@+id/Button01"
+	<Button android:text="@string/help" android:id="@+id/helpBtn"
 		android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="20dip" android:paddingRight="20dip"></Button>
 </LinearLayout>

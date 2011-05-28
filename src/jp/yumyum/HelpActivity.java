@@ -8,7 +8,6 @@ public class HelpActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.help);
 		super.onCreate(savedInstanceState);
 	}

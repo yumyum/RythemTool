@@ -9,4 +9,5 @@
 <string name="EndOfGraphArea">グラフエリアの終端です</string>
 <string name="pleaseReset">メニューからリセットしてください</string>
 <string name="help">使い方</string>
+<string name="current_bpm">現在の設定値 :</string>
 </resources>

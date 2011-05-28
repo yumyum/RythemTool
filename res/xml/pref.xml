@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<EditTextPreference android:key="@string/target_bpm_key"
+		android:title="@string/tempo" android:summary="@string/current_bpm"
+		android:dialogTitle="@string/tempo" android:inputType="phone"
+		android:gravity="right" android:selectAllOnFocus="true" android:defaultValue="120"/>
+</PreferenceScreen>

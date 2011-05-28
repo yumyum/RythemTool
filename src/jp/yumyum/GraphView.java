@@ -2,11 +2,13 @@ package jp.yumyum;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -24,12 +26,12 @@ class GraphView extends View {
 	private int lastValueX;
 	private int lastValueY;
 	private int nextValueY = 0;
-	private int targetBPM = 120;
+	private int targetBPM = 0;
 	private long lastTime = 0;
 	private ValueView mValueView;
 	private int backCount = 0;
 
-	private int REPEAT_INTERVAL = 60000 / targetBPM / 2;
+	private int REPEAT_INTERVAL = 0;
 
 	private final int FORWARD_PICS = 1;
 	private final int GRAPH_MAX_WIDTH = 10000;
@@ -44,7 +46,10 @@ class GraphView extends View {
 		lastValueX = lastCursor = cursor = 5;
 		lastValueY = height / 2;
 		mValueView = vview;
-
+		
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		int bpm = Integer.parseInt(sharedPreferences.getString(context.getString(R.string.target_bpm_key), "0"));
+		setTargetBpm(bpm);
 		// 裏で描画するためのビットマップを作成
 		// とりあえず幅は 画面幅+800 としてみる
 		mBitmap = Bitmap.createBitmap(GRAPH_MAX_WIDTH, height,

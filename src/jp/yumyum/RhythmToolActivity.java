@@ -2,11 +2,12 @@ package jp.yumyum;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -14,6 +15,7 @@ public class RhythmToolActivity extends Activity {
 	private ShowArea mShowArea;
 	private TapArea mTapArea;
 	private LinearLayout rootLayout;
+	private SharedPreferences sharedPreferences;
 
 	static final int REQUEST_OPTION = 1;
 
@@ -21,7 +23,8 @@ public class RhythmToolActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		PreferenceManager.setDefaultValues(this, R.xml.pref, true);
 		setContentView(R.layout.main);
 		// メインのLinearLayoutを取得
 		if (rootLayout == null) {
@@ -71,13 +74,11 @@ public class RhythmToolActivity extends Activity {
 			return true;
 		case R.id.mOption:
 			// インテントの生成
-			intent = new Intent(this, OptionActivity.class);
-
-			// 現在のテンポを渡すためにインテントに入れる
-			intent.putExtra("CurrentBPM", mShowArea.getTagetBpm());
+			intent = new Intent(this, PrefActivity.class);
 
 			// アクティビティの呼び出し
 			startActivityForResult(intent, REQUEST_OPTION);
+
 			return true;
 		case R.id.mAbout:
 			// インテントの生成
@@ -96,12 +97,7 @@ public class RhythmToolActivity extends Activity {
 			Intent intent) {
 		if (requestCode == REQUEST_OPTION && resultCode == RESULT_OK) {
 			// インテントからのパラメータ取得
-			int bpm = -1;
-			Bundle extras = intent.getExtras();
-			if (extras != null)
-				bpm = extras.getInt("bpm");
-
-			// BPMの設定
+			int bpm = Integer.parseInt(sharedPreferences.getString(getString(R.string.target_bpm_key), "0"));
 			mShowArea.setTargetBpm(bpm);
 		}
 	}

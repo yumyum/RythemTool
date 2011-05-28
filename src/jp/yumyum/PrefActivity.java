@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 public class PrefActivity extends PreferenceActivity implements
 		OnPreferenceChangeListener {
 	private EditTextPreference bpmPref;
+	private CheckBoxPreference guidEnable;
 	private Intent intent;
 
 	@Override
@@ -31,6 +33,8 @@ public class PrefActivity extends PreferenceActivity implements
 				+ sharedPreferences.getString(
 						getString(R.string.target_bpm_key), ""));
 		bpmPref.setOnPreferenceChangeListener(this);
+		guidEnable = (CheckBoxPreference)findPreference(getString(R.string.bpm_guid_key));
+		guidEnable.setOnPreferenceChangeListener(this);
 
 	}
 
@@ -51,6 +55,9 @@ public class PrefActivity extends PreferenceActivity implements
 			// サマリーに新しく設定された値を反映
 			bpmPref.setSummary(getString(R.string.current_bpm) + " " + arg1);
 
+			setResult(Activity.RESULT_OK, intent);
+			return true;
+		} else if (arg0 == guidEnable){
 			setResult(Activity.RESULT_OK, intent);
 			return true;
 		}

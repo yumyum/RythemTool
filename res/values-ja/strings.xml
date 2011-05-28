@@ -10,4 +10,6 @@
 <string name="pleaseReset">メニューからリセットしてください</string>
 <string name="help">使い方</string>
 <string name="current_bpm">現在の設定値 :</string>
+<string name="bpm_guid">テンポガイド</string>
+<string name="bpm_guid_summary">テンポガイドを表示します</string>
 </resources>

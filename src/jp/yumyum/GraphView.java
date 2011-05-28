@@ -30,6 +30,7 @@ class GraphView extends View {
 	private long lastTime = 0;
 	private ValueView mValueView;
 	private int backCount = 0;
+	private boolean isGuidEnable;
 
 	private int REPEAT_INTERVAL = 0;
 
@@ -46,10 +47,15 @@ class GraphView extends View {
 		lastValueX = lastCursor = cursor = 5;
 		lastValueY = height / 2;
 		mValueView = vview;
-		
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		int bpm = Integer.parseInt(sharedPreferences.getString(context.getString(R.string.target_bpm_key), "0"));
+
+		SharedPreferences sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		int bpm = Integer.parseInt(sharedPreferences.getString(
+				context.getString(R.string.target_bpm_key), "0"));
 		setTargetBpm(bpm);
+		isGuidEnable = sharedPreferences.getBoolean(
+				context.getString(R.string.bpm_guid_key), false);
+
 		// 裏で描画するためのビットマップを作成
 		// とりあえず幅は 画面幅+800 としてみる
 		mBitmap = Bitmap.createBitmap(GRAPH_MAX_WIDTH, height,
@@ -152,6 +158,8 @@ class GraphView extends View {
 		}
 		if (runnable == null) {
 			runnable = new Runnable() {
+				private boolean guid = true;
+
 				@Override
 				public void run() {
 
@@ -162,6 +170,15 @@ class GraphView extends View {
 					// 単純にforwordCursol(4)でもいいがこういう書き方もできるということで
 					GraphView.this.forwordCursol(FORWARD_PICS);
 					requestLayout();
+					if (isGuidEnable) {
+						if (guid) {
+							mValueView.showGuid();
+							guid = false;
+						} else {
+							guid = true;
+						}
+					}
+
 					invalidate();
 
 				}
@@ -237,5 +254,10 @@ class GraphView extends View {
 
 	public int getTargetBpm() {
 		return targetBPM;
+	}
+	
+	public void setGuidEnable(boolean value){
+		this.isGuidEnable = value;
+		return;
 	}
 }

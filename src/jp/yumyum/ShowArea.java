@@ -83,4 +83,9 @@ class ShowArea extends HorizontalScrollView {
 		if (graphView != null)
 			graphView.stopScroll();
 	}
+	
+	public void setGuidEnable(boolean value){
+		graphView.setGuidEnable(value);
+		return;
+	}
 }

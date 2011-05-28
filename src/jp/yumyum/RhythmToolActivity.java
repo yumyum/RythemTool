@@ -99,6 +99,7 @@ public class RhythmToolActivity extends Activity {
 			// インテントからのパラメータ取得
 			int bpm = Integer.parseInt(sharedPreferences.getString(getString(R.string.target_bpm_key), "0"));
 			mShowArea.setTargetBpm(bpm);
+			mShowArea.setGuidEnable(sharedPreferences.getBoolean(getString(R.string.bpm_guid_key), false));
 		}
 	}
 

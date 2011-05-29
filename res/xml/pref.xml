@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<CheckBoxPreference android:defaultValue="false"
+		android:key="@string/mesure_mode_key" android:summary="@string/measure_mode_summary"
+		android:title="@string/measure_mode" android:disableDependentsState="true"></CheckBoxPreference>
 	<EditTextPreference android:key="@string/target_bpm_key"
 		android:title="@string/tempo" android:summary="@string/current_bpm"
 		android:dialogTitle="@string/tempo" android:inputType="phone"
-		android:gravity="right" android:selectAllOnFocus="true" android:defaultValue="120"/>
-<CheckBoxPreference android:defaultValue="false" android:key="@string/bpm_guid_key" android:summary="@string/bpm_guid_summary" android:title="@string/bpm_guid"></CheckBoxPreference>
+		android:gravity="right" android:selectAllOnFocus="true"
+		android:defaultValue="120" android:dependency="@string/mesure_mode_key"/>
+	<CheckBoxPreference android:defaultValue="false"
+		android:key="@string/bpm_guid_key" android:summary="@string/bpm_guid_summary"
+		android:title="@string/bpm_guid"></CheckBoxPreference>
 </PreferenceScreen>

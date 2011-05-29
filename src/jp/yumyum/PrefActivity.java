@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 public class PrefActivity extends PreferenceActivity implements
 		OnPreferenceChangeListener {
+	private CheckBoxPreference measureModePref;
 	private EditTextPreference bpmPref;
 	private CheckBoxPreference guidEnable;
 	private Intent intent;
@@ -26,6 +27,10 @@ public class PrefActivity extends PreferenceActivity implements
 				.getDefaultSharedPreferences(this);
 
 		addPreferencesFromResource(R.xml.pref);
+
+		measureModePref = (CheckBoxPreference) findPreference(getString(R.string.mesure_mode_key));
+		measureModePref.setOnPreferenceChangeListener(this);
+
 		bpmPref = (EditTextPreference) findPreference(getString(R.string.target_bpm_key));
 		// サマリーに現在の値を表示
 		bpmPref.setSummary(getString(R.string.current_bpm)
@@ -33,7 +38,7 @@ public class PrefActivity extends PreferenceActivity implements
 				+ sharedPreferences.getString(
 						getString(R.string.target_bpm_key), ""));
 		bpmPref.setOnPreferenceChangeListener(this);
-		guidEnable = (CheckBoxPreference)findPreference(getString(R.string.bpm_guid_key));
+		guidEnable = (CheckBoxPreference) findPreference(getString(R.string.bpm_guid_key));
 		guidEnable.setOnPreferenceChangeListener(this);
 
 	}
@@ -57,7 +62,10 @@ public class PrefActivity extends PreferenceActivity implements
 
 			setResult(Activity.RESULT_OK, intent);
 			return true;
-		} else if (arg0 == guidEnable){
+		} else if (arg0 == guidEnable) {
+			setResult(Activity.RESULT_OK, intent);
+			return true;
+		} else if (arg0 == measureModePref) {
 			setResult(Activity.RESULT_OK, intent);
 			return true;
 		}

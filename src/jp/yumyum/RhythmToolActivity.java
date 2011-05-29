@@ -2,7 +2,6 @@ package jp.yumyum;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -15,7 +14,6 @@ public class RhythmToolActivity extends Activity {
 	private ShowArea mShowArea;
 	private TapArea mTapArea;
 	private LinearLayout rootLayout;
-	private SharedPreferences sharedPreferences;
 
 	static final int REQUEST_OPTION = 1;
 
@@ -23,7 +21,6 @@ public class RhythmToolActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		PreferenceManager.setDefaultValues(this, R.xml.pref, true);
 		setContentView(R.layout.main);
 		// メインのLinearLayoutを取得
@@ -96,10 +93,8 @@ public class RhythmToolActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent intent) {
 		if (requestCode == REQUEST_OPTION && resultCode == RESULT_OK) {
-			// インテントからのパラメータ取得
-			int bpm = Integer.parseInt(sharedPreferences.getString(getString(R.string.target_bpm_key), "0"));
-			mShowArea.setTargetBpm(bpm);
-			mShowArea.setGuidEnable(sharedPreferences.getBoolean(getString(R.string.bpm_guid_key), false));
+			// 設定値が変更された場合はグラフを初期化。初期化処理で設定値を読み込んでいる。
+			mShowArea.reset();
 		}
 	}
 

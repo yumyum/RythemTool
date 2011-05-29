@@ -12,4 +12,7 @@
 <string name="current_bpm">現在の設定値 :</string>
 <string name="bpm_guid">テンポガイド</string>
 <string name="bpm_guid_summary">テンポガイドを表示します</string>
+<string name="measure_mode">計測モード</string>
+<string name="measure_mode_summary">スタート時の５回タップで目標テンポを測定します</string>
+<string name="measurering">計測中</string>
 </resources>

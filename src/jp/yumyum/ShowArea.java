@@ -2,7 +2,6 @@ package jp.yumyum;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.HorizontalScrollView;
 
@@ -49,17 +48,9 @@ class ShowArea extends HorizontalScrollView {
 	}
 
 	public void tapEvent(long time) {
-		if (graphView.isScrolling()) {
-			// scrolling = false;
-			// graphView.stopScroll();
-			// // 自動スクロールが止まったらスクロールバー表示
-			// this.setHorizontalScrollBarEnabled(true);
-		} else {
-			if (graphView.startScroll() == false)
-				return;
+		if (graphView.isScrolling() == false) {
 			// 自動スクロール中はスクロールバー非表示
 			this.setHorizontalScrollBarEnabled(false);
-			requestLayout();
 		}
 		graphView.tap(time);
 		return;
@@ -67,12 +58,6 @@ class ShowArea extends HorizontalScrollView {
 
 	public void reset() {
 		graphView.reset();
-	}
-
-	public void setTargetBpm(int bpm) {
-		if (bpm > 0) {
-			graphView.setTargetBpm(bpm);
-		}
 	}
 
 	public int getTagetBpm() {
@@ -83,9 +68,5 @@ class ShowArea extends HorizontalScrollView {
 		if (graphView != null)
 			graphView.stopScroll();
 	}
-	
-	public void setGuidEnable(boolean value){
-		graphView.setGuidEnable(value);
-		return;
-	}
+
 }

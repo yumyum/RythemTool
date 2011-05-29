@@ -2,7 +2,6 @@ package jp.yumyum;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.os.Handler;
@@ -29,21 +28,26 @@ public class ValueView extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		// 真ん中上部のBPM平均値の表示
+		// 真ん中上部の今回のBPMの表示
 		Paint p = new Paint();
 		p.setTextSize(40);
 		p.setTextAlign(Align.CENTER);
 		p.setAntiAlias(true);
-		canvas.drawText(String.valueOf(averageBPM), getWidth() / 2, 40, p);
+		canvas.drawText(String.valueOf(currentBPM), getWidth() / 2, 40, p);
 
 		// 左下の目標BPMの表示
 		p.setTextSize(20);
 		p.setTextAlign(Align.LEFT);
-		canvas.drawText(String.valueOf(targetBPM), 5, getHeight() * 0.75f, p);
-
-		// 右上の今回のBPMの表示
+		if (targetBPM == 0) {
+			canvas.drawText(getContext().getString(R.string.measurering), 5, getHeight() * 0.75f,
+					p);
+		} else {
+			canvas.drawText(String.valueOf(targetBPM), 5, getHeight() * 0.75f,
+					p);
+		}
+		// 右上の平均値BPMの表示
 		p.setTextAlign(Align.RIGHT);
-		canvas.drawText(String.valueOf(currentBPM), getWidth() - 5, 40, p);
+		canvas.drawText(String.valueOf(averageBPM), getWidth() - 5, 40, p);
 
 		if (isShowGuid) {
 			// 円を描画する
@@ -88,7 +92,7 @@ public class ValueView extends View {
 	}
 
 	public void showGuid() {
-		// 　ガイド円を表示
+		// ガイド円を表示
 		this.isShowGuid = true;
 		invalidate();
 
@@ -97,7 +101,7 @@ public class ValueView extends View {
 				@Override
 				public void run() {
 					// ガイド円の消去
-					ValueView.this.isShowGuid = false;
+//					ValueView.this.isShowGuid = false;
 					invalidate();
 					ValueView.this.runnable = null;
 				}

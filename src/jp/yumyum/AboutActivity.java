@@ -7,7 +7,6 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -34,7 +33,7 @@ public class AboutActivity extends Activity implements View.OnClickListener {
 
 		// アクティビティの呼び出し
 		startActivity(intent);
-		return;
+		finish();
 	}
 
 }

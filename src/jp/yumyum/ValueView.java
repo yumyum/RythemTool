@@ -101,7 +101,7 @@ public class ValueView extends View {
 				@Override
 				public void run() {
 					// ガイド円の消去
-//					ValueView.this.isShowGuid = false;
+					ValueView.this.isShowGuid = false;
 					invalidate();
 					ValueView.this.runnable = null;
 				}

@@ -205,6 +205,7 @@ class GraphView extends View {
 				isMeasuring = false;
 				int estimateBpm = (int) (60000 / (measureSum / (MEASURE_MAX - 1)));
 				setTargetBpm(estimateBpm);
+				lastTime = time;
 			}
 			return;
 

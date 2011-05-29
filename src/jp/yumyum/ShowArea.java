@@ -43,7 +43,6 @@ class ShowArea extends HorizontalScrollView {
 			this.addView(graphView);
 			invalidate();
 		}
-
 		super.onDraw(canvas);
 	}
 

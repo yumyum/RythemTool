@@ -189,6 +189,11 @@ class GraphView extends View {
 			// 前回のタップ時間をクリア
 			lastTime = 0;
 		}
+		if(isMeasuring){
+			measureCount = 0;
+			measureLast = 0;
+			measureSum = 0;
+		}
 	}
 
 	public void tap(long time) {
@@ -290,5 +295,4 @@ class GraphView extends View {
 	public int getTargetBpm() {
 		return targetBPM;
 	}
-
 }

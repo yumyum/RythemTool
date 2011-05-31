@@ -46,6 +46,9 @@ class GraphView extends View {
 	public GraphView(Context context, int width, int height, ValueView vview) {
 		super(context);
 
+		sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(context);
+
 		mWidth = winWidth = width;
 		winHeight = height;
 		handler = new Handler();
@@ -63,6 +66,7 @@ class GraphView extends View {
 		mCanvas.setBitmap(mBitmap);
 		// 背景を白で塗る
 		initCanvas();
+
 	}
 
 	@Override
@@ -140,7 +144,7 @@ class GraphView extends View {
 		return;
 	}
 
-	public boolean startScroll() {
+	private boolean startScroll() {
 		if (runnable == null) {
 			runnable = new Runnable() {
 				private boolean guid = true;
@@ -189,7 +193,7 @@ class GraphView extends View {
 			// 前回のタップ時間をクリア
 			lastTime = 0;
 		}
-		if(isMeasuring){
+		if (isMeasuring) {
 			measureCount = 0;
 			measureLast = 0;
 			measureSum = 0;
@@ -215,13 +219,14 @@ class GraphView extends View {
 			return;
 
 		}
-		if (isScrolling() == false)
+		if (isScrolling() == false) {
+			mValueView.initAverageBuf(time);
 			startScroll();
+		}
 		// 2回目以降のタップでBPMを計算
 		if (lastTime != 0) {
-			int bpm = (int) (60000 / (lastTime - time));
-			nextValueY = bpm + targetBPM + winHeight / 2;
-			mValueView.setCurrentBPM(Math.abs(bpm));
+			int bpm = mValueView.getBPM(time - lastTime);
+			nextValueY = targetBPM + winHeight / 2 - bpm;
 		}
 		lastTime = time;
 		backCount = 0;
@@ -264,8 +269,7 @@ class GraphView extends View {
 
 		initCanvas();
 		invalidate();
-		sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(context);
+
 		isMeasuring = sharedPreferences.getBoolean(
 				context.getString(R.string.mesure_mode_key), false);
 		if (isMeasuring) {
@@ -277,9 +281,11 @@ class GraphView extends View {
 		}
 		isGuidEnable = sharedPreferences.getBoolean(
 				context.getString(R.string.bpm_guid_key), false);
+		
+		mValueView.setAvarageMode(sharedPreferences.getBoolean(context.getString(R.string.average_mode_key), true));
 	}
 
-	//　目標BPMの設定
+	// 　目標BPMの設定
 	private void setTargetBpm(int bpm) {
 		if (bpm == 0) {
 			targetBPM = 0;

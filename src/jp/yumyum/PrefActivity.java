@@ -17,6 +17,7 @@ public class PrefActivity extends PreferenceActivity implements
 	private CheckBoxPreference measureModePref;
 	private EditTextPreference bpmPref;
 	private CheckBoxPreference guidEnable;
+	private CheckBoxPreference averageMode;
 	private Intent intent;
 
 	@Override
@@ -40,6 +41,9 @@ public class PrefActivity extends PreferenceActivity implements
 		bpmPref.setOnPreferenceChangeListener(this);
 		guidEnable = (CheckBoxPreference) findPreference(getString(R.string.bpm_guid_key));
 		guidEnable.setOnPreferenceChangeListener(this);
+		
+		averageMode = (CheckBoxPreference)findPreference(getString(R.string.average_mode_key));
+		averageMode.setOnPreferenceChangeListener(this);
 
 	}
 
@@ -66,6 +70,9 @@ public class PrefActivity extends PreferenceActivity implements
 			setResult(Activity.RESULT_OK, intent);
 			return true;
 		} else if (arg0 == measureModePref) {
+			setResult(Activity.RESULT_OK, intent);
+			return true;
+		} else if (arg0 == averageMode){
 			setResult(Activity.RESULT_OK, intent);
 			return true;
 		}

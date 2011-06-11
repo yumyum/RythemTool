@@ -1,5 +1,7 @@
 package jp.yumyum;
 
+import com.hlidskialf.android.preference.SeekBarPreference;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +20,7 @@ public class PrefActivity extends PreferenceActivity implements
 	private EditTextPreference bpmPref;
 	private CheckBoxPreference guidEnable;
 	private CheckBoxPreference averageMode;
+	private SeekBarPreference averageCount;
 	private Intent intent;
 
 	@Override
@@ -29,21 +32,33 @@ public class PrefActivity extends PreferenceActivity implements
 
 		addPreferencesFromResource(R.xml.pref);
 
+		// 計測モードの設定
 		measureModePref = (CheckBoxPreference) findPreference(getString(R.string.mesure_mode_key));
 		measureModePref.setOnPreferenceChangeListener(this);
 
+		// ターゲットBPM設定
 		bpmPref = (EditTextPreference) findPreference(getString(R.string.target_bpm_key));
 		// サマリーに現在の値を表示
 		bpmPref.setSummary(getString(R.string.current_bpm)
-				+ " "
 				+ sharedPreferences.getString(
 						getString(R.string.target_bpm_key), ""));
 		bpmPref.setOnPreferenceChangeListener(this);
+
+		// テンポガイドの設定
 		guidEnable = (CheckBoxPreference) findPreference(getString(R.string.bpm_guid_key));
 		guidEnable.setOnPreferenceChangeListener(this);
-		
-		averageMode = (CheckBoxPreference)findPreference(getString(R.string.average_mode_key));
+
+		// 平均値モードの設定
+		averageMode = (CheckBoxPreference) findPreference(getString(R.string.average_mode_key));
 		averageMode.setOnPreferenceChangeListener(this);
+
+		// 平均値モードで使用する値の数の設定
+		averageCount = (SeekBarPreference) findPreference(getString(R.string.average_count_key));
+		// サマリーに現在の値を表示
+		averageCount.setSummary(getString(R.string.average_count_summary)
+				+ sharedPreferences.getInt(
+						getString(R.string.average_count_key), 0));
+		averageCount.setOnPreferenceChangeListener(this);
 
 	}
 
@@ -62,7 +77,7 @@ public class PrefActivity extends PreferenceActivity implements
 				return false;
 			}
 			// サマリーに新しく設定された値を反映
-			bpmPref.setSummary(getString(R.string.current_bpm) + " " + arg1);
+			bpmPref.setSummary(getString(R.string.current_bpm) + arg1);
 
 			setResult(Activity.RESULT_OK, intent);
 			return true;
@@ -72,7 +87,11 @@ public class PrefActivity extends PreferenceActivity implements
 		} else if (arg0 == measureModePref) {
 			setResult(Activity.RESULT_OK, intent);
 			return true;
-		} else if (arg0 == averageMode){
+		} else if (arg0 == averageMode) {
+			setResult(Activity.RESULT_OK, intent);
+			return true;
+		} else if (arg0 == averageCount) {
+			this.averageCount.setSummary(getString(R.string.average_count_summary) + (Integer)arg1);
 			setResult(Activity.RESULT_OK, intent);
 			return true;
 		}

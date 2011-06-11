@@ -11,8 +11,8 @@ public class ValueView extends View {
 	private int averageBPM;
 	private int targetBPM;
 	private int currentBPM;
-	private static int BUF_LEN = 4;
-	private long[] buf = new long[BUF_LEN];
+	private int buf_len = 2;
+	private long[] buf = new long[buf_len];
 	private int index;
 	private long sum;
 	private boolean isShowGuid = false;
@@ -73,34 +73,28 @@ public class ValueView extends View {
 	public void setTargetBPM(int value) {
 		// 目標BPMを設定
 		targetBPM = value;
-		/*
-		 * // 平均値を出すためのバッファを目標値で初期化 for (int i = 0; i < bufLen - 1; i++) {
-		 * buf[i] = targetBPM; } // 最初の値を入れるスペースの処理 index = bufLen - 1;
-		 * buf[index] = 0; // 平均値を出すために合計を計算 sum = targetBPM * (bufLen - 1);
-		 */
+		int i;
+		long temp1, temp2;
+		// 平均値を出すためのバッファを初期化
+		if (targetBPM != 0) {
+			temp1 = 60000 * buf_len / targetBPM;
+			sum = 0;
+			for (i = 0; i < buf_len - 1; i++) {
+				temp2 = 60000 * (buf_len - 1 - i) / targetBPM;
+				buf[i] = temp1 - temp2;
+				temp1 = temp2;
+				sum += buf[i];
+			}
+			buf[i] = 0;
+			index = i;
+		}
 		currentBPM = 0;
 		averageBPM = 0;
-	}
-	
-	public void setAvarageMode(boolean value){
-		this.isAverageMode = value;
+
 	}
 
-	public void initAverageBuf(long time) {
-		int i = 0;
-		long temp1, temp2;
-		temp1 = time - 60000 * BUF_LEN / targetBPM;
-		sum = 0;
-		for (i = 0; i < BUF_LEN - 1; i++) {
-			temp2 = time - 60000 * (BUF_LEN - 1 - i) / targetBPM;
-			buf[i] = temp2 - temp1;
-			temp1 = temp2;
-			sum += buf[i];
-		}
-		buf[i] = 0;
-		index = i;
-		currentBPM = 0;
-		averageBPM = 0;
+	public void setAvarageMode(boolean value) {
+		this.isAverageMode = value;
 	}
 
 	public int getBPM(long delta) {
@@ -111,11 +105,11 @@ public class ValueView extends View {
 		buf[index] = delta;
 		sum += buf[index];
 		// 平均値を設定
-		averageBPM = (int) (60000*BUF_LEN/sum);
+		averageBPM = (int) (60000 * buf_len / sum);
 		// バッファのインデックスを更新
 		index++;
-		index %= BUF_LEN;
-		if(isAverageMode)
+		index %= buf_len;
+		if (isAverageMode)
 			return averageBPM;
 		else
 			return currentBPM;
@@ -139,6 +133,14 @@ public class ValueView extends View {
 
 			// ガイド円の消去処理を予約
 			handler.postDelayed(runnable, CIRCLE_SHOW_TIME);
+		}
+	}
+
+	public void setBufLen(int len) {
+		if (this.buf_len != len) {
+			this.buf_len = len;
+			this.buf = new long[len];
+			index = 0;
 		}
 	}
 }

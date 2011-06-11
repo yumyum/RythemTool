@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:seekbar="http://schemas.android.com/apk/res/jp.yumyum">
 	<CheckBoxPreference android:defaultValue="false"
 		android:key="@string/mesure_mode_key" android:summary="@string/measure_mode_summary"
 		android:title="@string/measure_mode" android:disableDependentsState="true"></CheckBoxPreference>
@@ -14,4 +15,9 @@
 	<CheckBoxPreference android:defaultValue="true"
 		android:key="@string/average_mode_key" android:summary="@string/average_mode_summary"
 		android:title="@string/average_mode"></CheckBoxPreference>
+	<com.hlidskialf.android.preference.SeekBarPreference
+		android:key="@string/average_count_key" android:title="@string/average_count"
+		android:summary="" android:dialogMessage="@string/average_count_dialog_msg"
+		android:defaultValue="6" android:text="@string/average_count_text" seekbar:min="2"
+		android:max="10" />
 </PreferenceScreen>

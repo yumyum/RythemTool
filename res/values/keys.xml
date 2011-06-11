@@ -4,4 +4,5 @@
 <string name="bpm_guid_key">bpm_guid</string>
 <string name="mesure_mode_key">mesure_mode</string>
 <string name="average_mode_key">average_mode</string>
+<string name="average_count_key">average_count</string>
 </resources>

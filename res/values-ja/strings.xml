@@ -9,7 +9,7 @@
 <string name="EndOfGraphArea">グラフエリアの終端です</string>
 <string name="pleaseReset">メニューからリセットしてください</string>
 <string name="help">使い方</string>
-<string name="current_bpm">現在の設定値 :</string>
+<string name="current_bpm">"現在の設定値 : "</string>
 <string name="bpm_guid">テンポガイド</string>
 <string name="bpm_guid_summary">テンポガイドを表示します</string>
 <string name="measure_mode">計測モード</string>
@@ -17,4 +17,8 @@
 <string name="measurering">計測中</string>
 <string name="average_mode">平均値モード</string>
 <string name="average_mode_summary">グラフ描画に平均値を使用します</string>
+<string name="average_count">平均値計算設定</string>
+<string name="average_count_summary">"現在の設定値 : "</string>
+<string name="average_count_dialog_msg">平均値計算に使用する値の数</string>
+<string name="average_count_text">" 個"</string>
 </resources>

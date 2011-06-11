@@ -220,7 +220,6 @@ class GraphView extends View {
 
 		}
 		if (isScrolling() == false) {
-			mValueView.initAverageBuf(time);
 			startScroll();
 		}
 		// 2回目以降のタップでBPMを計算
@@ -270,6 +269,7 @@ class GraphView extends View {
 		initCanvas();
 		invalidate();
 
+		mValueView.setBufLen(sharedPreferences.getInt(context.getString(R.string.average_count_key), 4));
 		isMeasuring = sharedPreferences.getBoolean(
 				context.getString(R.string.mesure_mode_key), false);
 		if (isMeasuring) {
@@ -283,9 +283,10 @@ class GraphView extends View {
 				context.getString(R.string.bpm_guid_key), false);
 		
 		mValueView.setAvarageMode(sharedPreferences.getBoolean(context.getString(R.string.average_mode_key), true));
+
 	}
 
-	// 　目標BPMの設定
+	// 目標BPMの設定
 	private void setTargetBpm(int bpm) {
 		if (bpm == 0) {
 			targetBPM = 0;

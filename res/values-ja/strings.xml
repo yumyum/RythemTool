@@ -21,4 +21,7 @@
 <string name="average_count_summary">"現在の設定値 : "</string>
 <string name="average_count_dialog_msg">平均値計算に使用する値の数</string>
 <string name="average_count_text">" 個"</string>
+<string name="graph_sencitivity">グラフ感度</string>
+<string name="graph_sencitivity_summary">"現在の設定値 : "</string>
+<string name="graph_sencitivity_dialog_msg">グラフの描画感度</string>
 </resources>

@@ -21,6 +21,7 @@ public class PrefActivity extends PreferenceActivity implements
 	private CheckBoxPreference guidEnable;
 	private CheckBoxPreference averageMode;
 	private SeekBarPreference averageCount;
+	private SeekBarPreference graphSencitivity;
 	private Intent intent;
 
 	@Override
@@ -59,6 +60,14 @@ public class PrefActivity extends PreferenceActivity implements
 				+ sharedPreferences.getInt(
 						getString(R.string.average_count_key), 0));
 		averageCount.setOnPreferenceChangeListener(this);
+		
+		// グラフの描画感度
+		graphSencitivity = (SeekBarPreference) findPreference(getString(R.string.graph_sencitivity_key));
+		// サマリーに現在の値を表示
+		graphSencitivity.setSummary(getString(R.string.graph_sencitivity_summary)
+				+ sharedPreferences.getInt(
+						getString(R.string.graph_sencitivity_key), 0));
+		graphSencitivity.setOnPreferenceChangeListener(this);
 
 	}
 
@@ -92,6 +101,10 @@ public class PrefActivity extends PreferenceActivity implements
 			return true;
 		} else if (arg0 == averageCount) {
 			this.averageCount.setSummary(getString(R.string.average_count_summary) + (Integer)arg1);
+			setResult(Activity.RESULT_OK, intent);
+			return true;
+		} else if (arg0 == graphSencitivity) {
+			this.graphSencitivity.setSummary(getString(R.string.graph_sencitivity_summary) + (Integer)arg1);
 			setResult(Activity.RESULT_OK, intent);
 			return true;
 		}

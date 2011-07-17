@@ -34,6 +34,7 @@ class GraphView extends View {
 	private int measureCount;
 	private long measureLast;
 	private long measureSum;
+	private int sencitivity;
 
 	private int REPEAT_INTERVAL = 0;
 
@@ -201,7 +202,7 @@ class GraphView extends View {
 	}
 
 	public void tap(long time) {
-		// グラフ終端ま状態ならなにもしない
+		// グラフ終端状態ならなにもしない
 		if (isEndOfGraph)
 			return;
 		// 計測中処理
@@ -224,8 +225,9 @@ class GraphView extends View {
 		}
 		// 2回目以降のタップでBPMを計算
 		if (lastTime != 0) {
-			int bpm = mValueView.getBPM(time - lastTime);
-			nextValueY = targetBPM + winHeight / 2 - bpm;
+			int delta = (mValueView.getBPM(time - lastTime) - targetBPM)
+					* sencitivity;
+			nextValueY = winHeight / 2 - delta;
 		}
 		lastTime = time;
 		backCount = 0;
@@ -269,7 +271,8 @@ class GraphView extends View {
 		initCanvas();
 		invalidate();
 
-		mValueView.setBufLen(sharedPreferences.getInt(context.getString(R.string.average_count_key), 4));
+		mValueView.setBufLen(sharedPreferences.getInt(
+				context.getString(R.string.average_count_key), 4));
 		isMeasuring = sharedPreferences.getBoolean(
 				context.getString(R.string.mesure_mode_key), false);
 		if (isMeasuring) {
@@ -281,8 +284,12 @@ class GraphView extends View {
 		}
 		isGuidEnable = sharedPreferences.getBoolean(
 				context.getString(R.string.bpm_guid_key), false);
-		
-		mValueView.setAvarageMode(sharedPreferences.getBoolean(context.getString(R.string.average_mode_key), true));
+
+		// TODO: Add sencivity setting
+		sencitivity = sharedPreferences.getInt(context.getString(R.string.graph_sencitivity_key), 1);
+
+		mValueView.setAvarageMode(sharedPreferences.getBoolean(
+				context.getString(R.string.average_mode_key), true));
 
 	}
 

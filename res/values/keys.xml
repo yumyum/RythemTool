@@ -5,4 +5,5 @@
 <string name="mesure_mode_key">mesure_mode</string>
 <string name="average_mode_key">average_mode</string>
 <string name="average_count_key">average_count</string>
+<string name="graph_sencitivity_key">graph_sencitivity</string>
 </resources>

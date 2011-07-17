@@ -18,6 +18,11 @@
 	<com.hlidskialf.android.preference.SeekBarPreference
 		android:key="@string/average_count_key" android:title="@string/average_count"
 		android:summary="" android:dialogMessage="@string/average_count_dialog_msg"
-		android:defaultValue="6" android:text="@string/average_count_text" seekbar:min="2"
-		android:max="10" />
+		android:defaultValue="6" android:text="@string/average_count_text"
+		seekbar:min="2" android:max="10" />
+	<com.hlidskialf.android.preference.SeekBarPreference
+		android:key="@string/graph_sencitivity_key" android:title="@string/graph_sencitivity"
+		android:summary="" android:dialogMessage="@string/graph_sencitivity_dialog_msg"
+		android:defaultValue="1"
+		seekbar:min="1" android:max="6" />
 </PreferenceScreen>

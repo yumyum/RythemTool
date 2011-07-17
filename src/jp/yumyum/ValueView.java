@@ -101,9 +101,9 @@ public class ValueView extends View {
 		// 今回のBPMを設定
 		currentBPM = (int) (60000 / delta);
 		// 平均値の計算をしながらバッファを更新
-		sum -= buf[index];
+		sum = sum + delta - buf[index];
 		buf[index] = delta;
-		sum += buf[index];
+		
 		// 平均値を設定
 		averageBPM = (int) (60000 * buf_len / sum);
 		// バッファのインデックスを更新

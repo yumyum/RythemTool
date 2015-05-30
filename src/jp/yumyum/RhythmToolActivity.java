@@ -29,8 +29,8 @@ public class RhythmToolActivity extends Activity {
 
             // レイアウトパラメータ作成
             LinearLayout.LayoutParams lParam = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.FILL_PARENT,
-                    LinearLayout.LayoutParams.FILL_PARENT, 1);
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT, 1);
 
             // 表示エリア作成、LinearLayoutへ登録
             // FrameLayoutを使用する

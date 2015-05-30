@@ -1,5 +1,7 @@
 package jp.yumyum;
 
+import net.yu_yum.android.debug.YLog;
+import net.yu_yum.utils.DisplayUtil;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -35,17 +37,28 @@ class GraphView extends View {
     private long measureLast;
     private long measureSum;
     private int sencitivity;
+    private Paint mPaint;
 
     private int REPEAT_INTERVAL = 0;
 
+    // 計測モード時、計測に使用するタップ回数
+    private final int SENCIVITY_PARM;
     private final int MEASURE_MAX = 5;
-    private final int FORWARD_PICS = 1;
-    private final int GRAPH_MAX_WIDTH = 10000;
+    private final int FORWARD_PICS;
+    private final int LINE_WIDTH;
+
+    // グラフの最大幅
+    private final int GRAPH_MAX_WIDTH;
     private SharedPreferences sharedPreferences;
 
     // コンストラクタで幅と高さを指定
     public GraphView(Context context, int width, int height, ValueView vview) {
         super(context);
+
+        SENCIVITY_PARM = DisplayUtil.convertDPtoPX(context, 1);
+        FORWARD_PICS = DisplayUtil.convertDPtoPX(context, 1);
+        LINE_WIDTH = DisplayUtil.convertDPtoPX(context, 1);
+        GRAPH_MAX_WIDTH = DisplayUtil.convertDPtoPX(context, 1000);
 
         sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(context);
@@ -61,10 +74,12 @@ class GraphView extends View {
         reset();
 
         // 裏で描画するためのビットマップを作成
-        // とりあえず幅は 画面幅+800 としてみる
         mBitmap = Bitmap.createBitmap(GRAPH_MAX_WIDTH, height,
                 Bitmap.Config.RGB_565);
         mCanvas.setBitmap(mBitmap);
+
+        mPaint = new Paint();
+
         // 背景を白で塗る
         initCanvas();
 
@@ -72,37 +87,39 @@ class GraphView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        YLog.d("GraphView", "YUM onDraw");
         super.onDraw(canvas);
 
-        Paint paint = new Paint();
+        // ガイド横線を引く
+        mPaint.setColor(getResources().getColor(R.color.line_gray));
+
+        if (cursor > lastCursor) {
+            mCanvas.drawLine(lastCursor, winHeight / 2, cursor, winHeight / 2,
+                    mPaint);
+
+            // ガイド縦線を引く
+            if (cursor >= nextGuid) {
+                mCanvas.drawLine(nextGuid, 10, nextGuid, winHeight - 10, mPaint);
+                nextGuid += winWidth;
+            }
+        }
+
         // 青い線を引く
         if (nextValueY != 0) {
-            paint.setColor(getResources().getColor(R.color.line_blue));
+            mPaint.setColor(getResources().getColor(R.color.line_blue));
+            mPaint.setStrokeWidth(LINE_WIDTH);
 
-            mCanvas.drawLine(lastValueX, lastValueY, cursor, nextValueY, paint);
+            mCanvas.drawLine(lastValueX, lastValueY, cursor, nextValueY, mPaint);
             lastValueX = cursor;
             lastValueY = nextValueY;
             nextValueY = 0;
         }
 
-        // ガイド横線を引く
-        paint.setColor(getResources().getColor(R.color.line_gray));
-
-        if (cursor > lastCursor) {
-            mCanvas.drawLine(lastCursor, winHeight / 2, cursor, winHeight / 2,
-                    paint);
-
-            // ガイド縦線を引く
-            if (cursor >= nextGuid) {
-                mCanvas.drawLine(nextGuid, 10, nextGuid, winHeight - 10, paint);
-                nextGuid += winWidth;
-            }
-        }
         // mBitmapの内容を画面のキャンバスへ描く
         canvas.drawBitmap(mBitmap, 0, 0, null);
 
         // targetBPMの４倍の時間タップされなければ停止
-        if (cursor - lastValueX > 8) {
+        if (cursor - lastValueX > FORWARD_PICS * 8) {
             this.stopScroll();
         }
     }
@@ -226,8 +243,8 @@ class GraphView extends View {
         // 2回目以降のタップでBPMを計算
         if (lastTime != 0) {
             int delta = (mValueView.getBPM(time - lastTime) - targetBPM)
-                    * sencitivity;
-            nextValueY = winHeight / 2 - delta;
+                    * sencitivity * SENCIVITY_PARM;
+            nextValueY = winHeight / 2 - delta * LINE_WIDTH;
         }
         lastTime = time;
         backCount = 0;
@@ -285,7 +302,6 @@ class GraphView extends View {
         isGuidEnable = sharedPreferences.getBoolean(
                 context.getString(R.string.bpm_guid_key), false);
 
-        // TODO: Add sencivity setting
         sencitivity = sharedPreferences.getInt(context.getString(R.string.graph_sencitivity_key), 1);
 
         mValueView.setAvarageMode(sharedPreferences.getBoolean(

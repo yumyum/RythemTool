@@ -8,139 +8,140 @@ import android.os.Handler;
 import android.view.View;
 
 public class ValueView extends View {
-	private int averageBPM;
-	private int targetBPM;
-	private int currentBPM;
-	private int buf_len = 2;
-	private long[] buf = new long[buf_len];
-	private int index;
-	private long sum;
-	private boolean isShowGuid = false;
-	private Runnable runnable;
-	private Handler handler;
-	private boolean isAverageMode = true;
+    private int mAverageBPM;
+    private int mTargetBPM;
+    private int mCurrentBPM;
+    private int mBufLen = 2;
+    private long[] mBuf = new long[mBufLen];
+    private int mIndex;
+    private long mSum;
+    private boolean mIsShowGuid = false;
+    private Runnable mRunnable;
+    private Handler mHandler;
+    private boolean mIsAverageMode = true;
+    private Paint mPaint;
 
-	private final int CIRCLE_SHOW_TIME = 100;
+    private static final int CIRCLE_SHOW_TIME = 100;
 
-	public ValueView(Context context) {
-		super(context);
-		averageBPM = targetBPM = currentBPM = 0;
-		handler = new Handler();
-	}
+    public ValueView(Context context) {
+        super(context);
+        mAverageBPM = mTargetBPM = mCurrentBPM = 0;
+        mHandler = new Handler();
+        mPaint = new Paint();
+    }
 
-	@Override
-	protected void onDraw(Canvas canvas) {
-		// 真ん中上部の今回のBPMの表示
-		Paint p = new Paint();
-		p.setTextSize(40);
-		p.setTextAlign(Align.CENTER);
-		p.setAntiAlias(true);
-		if (isAverageMode) {
-			canvas.drawText(String.valueOf(averageBPM), getWidth() / 2, 40, p);
-		} else {
-			canvas.drawText(String.valueOf(currentBPM), getWidth() / 2, 40, p);
-		}
+    @Override
+    protected void onDraw(Canvas canvas) {
+        // 真ん中上部の今回のBPMの表示
+        mPaint.setTextSize(40);
+        mPaint.setTextAlign(Align.CENTER);
+        mPaint.setAntiAlias(true);
+        if (mIsAverageMode) {
+            canvas.drawText(String.valueOf(mAverageBPM), getWidth() / 2, 40, mPaint);
+        } else {
+            canvas.drawText(String.valueOf(mCurrentBPM), getWidth() / 2, 40, mPaint);
+        }
 
-		// 左下の目標BPMの表示
-		p.setTextSize(20);
-		p.setTextAlign(Align.LEFT);
-		if (targetBPM == 0) {
-			canvas.drawText(getContext().getString(R.string.measurering), 5,
-					getHeight() * 0.75f, p);
-		} else {
-			canvas.drawText(String.valueOf(targetBPM), 5, getHeight() * 0.75f,
-					p);
-		}
-		// 右上の平均値BPMの表示
-		p.setTextAlign(Align.RIGHT);
-		if (isAverageMode) {
-			canvas.drawText(String.valueOf(currentBPM), getWidth() - 5, 40, p);
-		} else {
-			canvas.drawText(String.valueOf(averageBPM), getWidth() - 5, 40, p);
-		}
-		if (isShowGuid) {
-			// 円を描画する
-			p.setStyle(Paint.Style.FILL);
-			p.setColor(getResources().getColor(R.color.curcle_pink));
-			p.setTextAlign(Align.CENTER);
-			p.setAntiAlias(true);
-			canvas.drawCircle(getWidth() / 2 - 55, 25, 13, p);
-		}
+        // 左下の目標BPMの表示
+        mPaint.setTextSize(20);
+        mPaint.setTextAlign(Align.LEFT);
+        if (mTargetBPM == 0) {
+            canvas.drawText(getContext().getString(R.string.measurering), 5,
+                    getHeight() * 0.75f, mPaint);
+        } else {
+            canvas.drawText(String.valueOf(mTargetBPM), 5, getHeight() * 0.75f,
+                    mPaint);
+        }
+        // 右上の平均値BPMの表示
+        mPaint.setTextAlign(Align.RIGHT);
+        if (mIsAverageMode) {
+            canvas.drawText(String.valueOf(mCurrentBPM), getWidth() - 5, 40, mPaint);
+        } else {
+            canvas.drawText(String.valueOf(mAverageBPM), getWidth() - 5, 40, mPaint);
+        }
+        if (mIsShowGuid) {
+            // 円を描画する
+            mPaint.setStyle(Paint.Style.FILL);
+            mPaint.setColor(getResources().getColor(R.color.curcle_pink));
+            mPaint.setTextAlign(Align.CENTER);
+            mPaint.setAntiAlias(true);
+            canvas.drawCircle(getWidth() / 2 - 55, 25, 13, mPaint);
+        }
 
-		super.onDraw(canvas);
-	}
+        super.onDraw(canvas);
+    }
 
-	public void setTargetBPM(int value) {
-		// 目標BPMを設定
-		targetBPM = value;
-		int i;
-		long temp1, temp2;
-		// 平均値を出すためのバッファを初期化
-		if (targetBPM != 0) {
-			temp1 = 60000 * buf_len / targetBPM;
-			sum = 0;
-			for (i = 0; i < buf_len - 1; i++) {
-				temp2 = 60000 * (buf_len - 1 - i) / targetBPM;
-				buf[i] = temp1 - temp2;
-				temp1 = temp2;
-				sum += buf[i];
-			}
-			buf[i] = 0;
-			index = i;
-		}
-		currentBPM = 0;
-		averageBPM = 0;
+    public void setTargetBPM(int value) {
+        // 目標BPMを設定
+        mTargetBPM = value;
+        int i;
+        long temp1, temp2;
+        // 平均値を出すためのバッファを初期化
+        if (mTargetBPM != 0) {
+            temp1 = 60000 * mBufLen / mTargetBPM;
+            mSum = 0;
+            for (i = 0; i < mBufLen - 1; i++) {
+                temp2 = 60000 * (mBufLen - 1 - i) / mTargetBPM;
+                mBuf[i] = temp1 - temp2;
+                temp1 = temp2;
+                mSum += mBuf[i];
+            }
+            mBuf[i] = 0;
+            mIndex = i;
+        }
+        mCurrentBPM = 0;
+        mAverageBPM = 0;
 
-	}
+    }
 
-	public void setAvarageMode(boolean value) {
-		this.isAverageMode = value;
-	}
+    public void setAvarageMode(boolean value) {
+        this.mIsAverageMode = value;
+    }
 
-	public int getBPM(long delta) {
-		// 今回のBPMを設定
-		currentBPM = (int) (60000 / delta);
-		// 平均値の計算をしながらバッファを更新
-		sum = sum + delta - buf[index];
-		buf[index] = delta;
-		
-		// 平均値を設定
-		averageBPM = (int) (60000 * buf_len / sum);
-		// バッファのインデックスを更新
-		index++;
-		index %= buf_len;
-		if (isAverageMode)
-			return averageBPM;
-		else
-			return currentBPM;
-	}
+    public int getBPM(long delta) {
+        // 今回のBPMを設定
+        mCurrentBPM = (int) (60000 / delta);
+        // 平均値の計算をしながらバッファを更新
+        mSum = mSum + delta - mBuf[mIndex];
+        mBuf[mIndex] = delta;
 
-	public void showGuid() {
-		// ガイド円を表示
-		this.isShowGuid = true;
-		invalidate();
+        // 平均値を設定
+        mAverageBPM = (int) (60000 * mBufLen / mSum);
+        // バッファのインデックスを更新
+        mIndex++;
+        mIndex %= mBufLen;
+        if (mIsAverageMode)
+            return mAverageBPM;
+        else
+            return mCurrentBPM;
+    }
 
-		if (runnable == null) {
-			runnable = new Runnable() {
-				@Override
-				public void run() {
-					// ガイド円の消去
-					ValueView.this.isShowGuid = false;
-					invalidate();
-					ValueView.this.runnable = null;
-				}
-			};
+    public void showGuid() {
+        // ガイド円を表示
+        this.mIsShowGuid = true;
+        invalidate();
 
-			// ガイド円の消去処理を予約
-			handler.postDelayed(runnable, CIRCLE_SHOW_TIME);
-		}
-	}
+        if (mRunnable == null) {
+            mRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    // ガイド円の消去
+                    ValueView.this.mIsShowGuid = false;
+                    invalidate();
+                    ValueView.this.mRunnable = null;
+                }
+            };
 
-	public void setBufLen(int len) {
-		if (this.buf_len != len) {
-			this.buf_len = len;
-			this.buf = new long[len];
-			index = 0;
-		}
-	}
+            // ガイド円の消去処理を予約
+            mHandler.postDelayed(mRunnable, CIRCLE_SHOW_TIME);
+        }
+    }
+
+    public void setBufLen(int len) {
+        if (this.mBufLen != len) {
+            this.mBufLen = len;
+            this.mBuf = new long[len];
+            mIndex = 0;
+        }
+    }
 }

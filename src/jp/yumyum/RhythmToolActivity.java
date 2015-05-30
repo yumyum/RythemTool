@@ -11,98 +11,94 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 public class RhythmToolActivity extends Activity {
-	private ShowArea mShowArea;
-	private TapArea mTapArea;
-	private LinearLayout rootLayout;
+    private ShowArea mShowArea;
 
-	static final int REQUEST_OPTION = 1;
+    static final int REQUEST_OPTION = 1;
 
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		PreferenceManager.setDefaultValues(this, R.xml.pref, true);
-		setContentView(R.layout.main);
-		// メインのLinearLayoutを取得
-		if (rootLayout == null) {
-			rootLayout = (LinearLayout) findViewById(R.id.Linear01);
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        PreferenceManager.setDefaultValues(this, R.xml.pref, true);
+        setContentView(R.layout.main);
+        // メインのLinearLayoutを取得
+        LinearLayout rootLayout = (LinearLayout) findViewById(R.id.Linear01);
 
-			// レイアウトパラメータ作成
-			LinearLayout.LayoutParams lParam = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.FILL_PARENT,
-					LinearLayout.LayoutParams.FILL_PARENT, 1);
+        // レイアウトパラメータ作成
+        LinearLayout.LayoutParams lParam = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT, 1);
 
-			// 表示エリア作成、LinearLayoutへ登録
-			// FrameLayoutを使用する
-			FrameLayout fl = new FrameLayout(this);
-			fl.setLayoutParams(lParam);
-			ValueView vv = new ValueView(this);
-			mShowArea = new ShowArea(this, vv);
-			mShowArea.setLayoutParams(lParam);
-			// FrameLayoutにShowAreaとValueViewを追加
-			fl.addView(mShowArea);
-			fl.addView(vv);
-			// LinearLayoutにFrameLayoutを追加
-			rootLayout.addView(fl);
+        // 表示エリア作成、LinearLayoutへ登録
+        // FrameLayoutを使用する
+        FrameLayout fl = new FrameLayout(this);
+        fl.setLayoutParams(lParam);
+        ValueView vv = new ValueView(this);
+        mShowArea = new ShowArea(this, vv);
+        mShowArea.setLayoutParams(lParam);
+        // FrameLayoutにShowAreaとValueViewを追加
+        fl.addView(mShowArea);
+        fl.addView(vv);
+        // LinearLayoutにFrameLayoutを追加
+        rootLayout.addView(fl);
 
-			// タップエリア作成、LinearLayoutへ登録
-			mTapArea = new TapArea(this, mShowArea);
-			mTapArea.setLayoutParams(lParam);
-			rootLayout.addView(mTapArea);
-		}
+        // タップエリア作成、LinearLayoutへ登録
+        TapArea tapArea = new TapArea(this, mShowArea);
+        tapArea.setLayoutParams(lParam);
+        rootLayout.addView(tapArea);
 
-	}
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		super.onOptionsItemSelected(item);
-		Intent intent;
-		switch (item.getItemId()) {
-		case R.id.mReset:
-			mShowArea.reset();
-			return true;
-		case R.id.mOption:
-			// インテントの生成
-			intent = new Intent(this, PrefActivity.class);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        Intent intent;
+        switch (item.getItemId()) {
+        case R.id.mReset:
+            mShowArea.reset();
+            return true;
+        case R.id.mOption:
+            // インテントの生成
+            intent = new Intent(this, PrefActivity.class);
 
-			// アクティビティの呼び出し
-			startActivityForResult(intent, REQUEST_OPTION);
+            // アクティビティの呼び出し
+            startActivityForResult(intent, REQUEST_OPTION);
 
-			return true;
-		case R.id.mAbout:
-			// インテントの生成
-			intent = new Intent(this, AboutActivity.class);
+            return true;
+        case R.id.mAbout:
+            // インテントの生成
+            intent = new Intent(this, AboutActivity.class);
 
-			// アクティビティの呼び出し
-			startActivity(intent);
-			return true;
-		}
-		return false;
-	}
+            // アクティビティの呼び出し
+            startActivity(intent);
+            return true;
+        }
+        return false;
+    }
 
-	// アクティビティ呼び出し結果の取得
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode,
-			Intent intent) {
-		if (requestCode == REQUEST_OPTION && resultCode == RESULT_OK) {
-			// 設定値が変更された場合はグラフを初期化。初期化処理で設定値を読み込んでいる。
-			mShowArea.reset();
-		}
-	}
+    // アクティビティ呼び出し結果の取得
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+            Intent intent) {
+        if (requestCode == REQUEST_OPTION && resultCode == RESULT_OK) {
+            // 設定値が変更された場合はグラフを初期化。初期化処理で設定値を読み込んでいる。
+            mShowArea.reset();
+        }
+    }
 
-	@Override
-	protected void onPause() {
-		if (mShowArea != null)
-			mShowArea.stopScroll();
-		super.onPause();
-	}
+    @Override
+    protected void onPause() {
+        if (mShowArea != null)
+            mShowArea.stopScroll();
+        super.onPause();
+    }
 
 }

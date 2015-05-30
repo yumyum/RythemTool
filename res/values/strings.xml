@@ -9,7 +9,7 @@
 	<string name="EndOfGraphArea">End of GraphArea</string>
 	<string name="pleaseReset">Prese Reset from menu</string>
 	<string name="about">About</string>
-	<string name="versionNo">1.50</string>
+	<string name="versionNo">1.40</string>
 	<string name="help">Help</string>
 <string name="current_bpm">"Current target BPM : "</string>
 <string name="bpm_guid">Tempo Guid</string>

@@ -17,6 +17,6 @@
 		<activity android:name="PrefActivity"
 			android:screenOrientation="portrait" />
 	</application>
-	<uses-sdk android:minSdkVersion="4" />
+	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="22"/>
 
 </manifest> 

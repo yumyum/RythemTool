@@ -1,9 +1,25 @@
 apply plugin: 'com.android.application'
-
 android {
+    signingConfigs {
+        Properties localProperties = new Properties()
+        localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+        release {
+            if (localProperties.getProperty("keyStore")) {
+                storeFile file(localProperties.getProperty("keyStore"))
+            }
+            if (localProperties.getProperty("storePassword")) {
+                storePassword localProperties.getProperty("storePassword")
+            }
+            if (localProperties.getProperty("keyAlias")) {
+                keyAlias localProperties.getProperty("keyAlias")
+            }
+            if (localProperties.getProperty("keyPassword")) {
+                keyPassword localProperties.getProperty("keyPassword")
+            }
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
-
     defaultConfig {
         applicationId "jp.yumyum"
         minSdkVersion 11
@@ -15,11 +31,18 @@ android {
             targetCompatibility JavaVersion.VERSION_1_7
         }
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
+}
+
+dependencies {
 }

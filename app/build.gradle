@@ -28,14 +28,13 @@ android {
             }
         }
     }
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 31
     defaultConfig {
         applicationId "jp.yumyum"
-        minSdkVersion 14
-        targetSdkVersion 29
-        versionCode 162
-        versionName "1.6.2"
+        minSdkVersion 26
+        targetSdkVersion 31
+        versionCode 163
+        versionName "1.6.3"
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7

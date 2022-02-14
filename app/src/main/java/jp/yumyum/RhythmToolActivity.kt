@@ -87,7 +87,7 @@ class RhythmToolActivity : Activity() {
 
     // アクティビティ呼び出し結果の取得
     override fun onActivityResult(requestCode: Int, resultCode: Int,
-                                  intent: Intent) {
+                                  intent: Intent?) {
         if (requestCode == REQUEST_OPTION && resultCode == RESULT_OK) {
             // 設定値が変更された場合はグラフを初期化。初期化処理で設定値を読み込んでいる。
             mShowArea!!.reset()

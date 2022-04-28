@@ -33,11 +33,11 @@ android {
         applicationId "jp.yumyum"
         minSdkVersion 26
         targetSdkVersion 31
-        versionCode 163
-        versionName "1.6.3"
+        versionCode 164
+        versionName "1.6.4"
         compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
         }
     }
     buildTypes {

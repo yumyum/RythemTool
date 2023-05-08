@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 android {
     signingConfigs {
@@ -28,16 +27,16 @@ android {
             }
         }
     }
-    compileSdkVersion 31
+    compileSdkVersion 33
     defaultConfig {
         applicationId "jp.yumyum"
         minSdkVersion 26
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode 164
         versionName "1.6.4"
         compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_8
-            targetCompatibility JavaVersion.VERSION_1_8
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
         }
     }
     buildTypes {
@@ -47,10 +46,11 @@ android {
             signingConfig signingConfigs.release
         }
     }
-
-    lintOptions {
+    lint {
         checkReleaseBuilds false
     }
+    namespace 'jp.yumyum'
+
 }
 
 dependencies {

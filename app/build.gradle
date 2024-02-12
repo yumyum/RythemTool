@@ -13,6 +13,10 @@ android {
                     keyPassword localProperties.getProperty("RELEASE_KEY_PASSWORD")
                 }
             }
+            storeFile file('C:\\Users\\yumyu\\etc\\androidkey\\yumyumapp.key')
+            keyAlias 'aliasyumyumappkey'
+            storePassword 'everfree'
+            keyPassword 'everfree'
             if (localProperties.getProperty("keyStore")) {
                 storeFile file(localProperties.getProperty("keyStore"))
             }
@@ -32,8 +36,8 @@ android {
         applicationId "jp.yumyum"
         minSdkVersion 26
         targetSdkVersion 33
-        versionCode 164
-        versionName "1.6.4"
+        versionCode 165
+        versionName "1.6.5"
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_17
             targetCompatibility JavaVersion.VERSION_17

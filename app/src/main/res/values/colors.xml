@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<color name="line_blue">#622dfb</color>
-<color name="line_gray">#cccccc</color>
-<color name="curcle_pink">#e775d9</color>
+    <color name="back_ground">#ffffff</color>
+    <color name="line_blue">#622dfb</color>
+    <color name="line_gray">#cccccc</color>
+    <color name="circle_pink">#e775d9</color>
+    <color name="text_color">#111111</color>
+    <color name="grad_top">#bbbbbb</color>
+    <color name="grad_bottom">#ffffff</color>
+    <color name="tap_area_line">#dddddd</color>
+    <color name="tap_area_line_taped">#bbbbbb</color>
+
 </resources>
 

@@ -256,10 +256,10 @@ internal class GraphView// コンストラクタで幅と高さを指定
     }
 
     private fun initCanvas() {
-        mCanvas.drawColor(Color.WHITE)
+        mCanvas.drawColor(resources.getColor(R.color.back_ground, null))
         // // 灰色のガイド線を描画
         val p = Paint()
-        p.color = resources.getColor(R.color.line_gray)
+        p.color = resources.getColor(R.color.line_gray, null)
         // mCanvas.drawLine(5, height / 2, width - 5, height / 2, p);
         mCanvas.drawLine((winWidth / 2).toFloat(), 10f, (winWidth / 2).toFloat(), (winHeight - 10).toFloat(), p)
         nextGuid = (winWidth * 1.5).toInt()

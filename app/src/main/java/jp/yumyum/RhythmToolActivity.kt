@@ -3,12 +3,16 @@ package jp.yumyum
 import android.app.ComponentCaller
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -26,23 +30,13 @@ class RhythmToolActivity : AppCompatActivity() {
         setContentView(R.layout.main)
         // メインのLinearLayoutを取得
         if (rootLayout == null) {
-            rootLayout = findViewById(R.id.Linear01) as LinearLayout
-            val iRootLayout = findViewById<View>(android.R.id.content).getRootView()
-            ViewCompat.setOnApplyWindowInsetsListener(iRootLayout) { v, windowInsets ->
-                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-                v.updatePadding(
-                    top = insets.top, bottom = insets.bottom
-                )
-                WindowInsetsCompat.CONSUMED
-            }
-
+            rootLayout = findViewById(R.id.Linear01)!!
 
             // レイアウトパラメータ作成
             val lParam = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT, 1f
             )
-//            lParam.topMargin = 500
 
             // 表示エリア作成、LinearLayoutへ登録
             // FrameLayoutを使用する
@@ -54,6 +48,33 @@ class RhythmToolActivity : AppCompatActivity() {
             // FrameLayoutにShowAreaとValueViewを追加
             fl.addView(mShowArea)
             fl.addView(vv)
+
+            // メニューボタン
+            val menuButton = ImageButton(application)
+            menuButton.apply {
+                setImageResource(R.drawable.menu)
+                imageTintList = resources.getColorStateList(R.color.button_color, null)
+                setBackgroundColor(0x00000000)
+                setOnClickListener {
+                    val popup = PopupMenu(this@RhythmToolActivity, this)
+                    val inflater: MenuInflater = popup.menuInflater
+                    inflater.inflate(R.menu.menu, popup.menu)
+                    popup.setOnMenuItemClickListener { item -> onOptionsItemSelected(item) }
+                    popup.show()
+                }
+            }
+            val menuLp = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+            ).apply{
+                gravity = Gravity.END or Gravity.TOP
+                topMargin = 120
+                rightMargin = 40
+            }
+            menuButton.layoutParams = menuLp
+
+            fl.addView(menuButton)
+
             // LinearLayoutにFrameLayoutを追加
             rootLayout!!.addView(fl)
 
@@ -63,13 +84,6 @@ class RhythmToolActivity : AppCompatActivity() {
             rootLayout!!.addView(mTapArea)
         }
 
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        super.onCreateOptionsMenu(menu)
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu, menu)
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="back_ground">#333333</color>
+    <color name="line_blue">#bda6ff</color>
+    <color name="line_gray">#666666</color>
+    <color name="circle_pink">#804178</color>
+    <color name="text_color">#eeeeee</color>
+    <color name="grad_top">#bbbbbb</color>
+    <color name="grad_bottom">#555555</color>
+    <color name="tap_area_line">#bbbbbb</color>
+    <color name="tap_area_line_taped">#dddddd</color>
+</resources>
+

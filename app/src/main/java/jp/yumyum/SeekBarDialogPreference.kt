@@ -26,7 +26,7 @@ class SeekBarDialogPreference(private val context: Context, attrs: AttributeSet?
     private val mMin: Int
     var max: Int = 0
     private var mValue: Int = 0
-    private var tmpValue: Int = 0
+    private var tmpValue: Int = -1
     private val mTextColor: Int
 
     private val TAG = "SeekBarPref"
@@ -47,21 +47,21 @@ class SeekBarDialogPreference(private val context: Context, attrs: AttributeSet?
         Log.d(TAG, "Constructer")
 
         // リソースIDで書かれているかどうかを判定
-        var resouceId = attrs?.getAttributeResourceValue(
+        var resourceId = attrs?.getAttributeResourceValue(
             androidns,
             "dialogMessage", 0) ?: 0
-        if (resouceId != 0) {
+        if (resourceId != 0) {
             // リソースIDが見つかればリソースとして処理
-            mDialogMessage = context.getString(resouceId)
+            mDialogMessage = context.getString(resourceId)
         } else {
             // リソースIDが見つからなければ文字列として処理
             mDialogMessage = attrs
                 ?.getAttributeValue(androidns, "dialogMessage")
         }
 
-        resouceId = attrs?.getAttributeResourceValue(androidns, "text", 0) ?: 0
-        if (resouceId != 0) {
-            mSuffix = context.getString(resouceId)
+        resourceId = attrs?.getAttributeResourceValue(androidns, "text", 0) ?: 0
+        if (resourceId != 0) {
+            mSuffix = context.getString(resourceId)
         } else {
             mSuffix = attrs?.getAttributeValue(androidns, "text")
         }
@@ -99,9 +99,7 @@ class SeekBarDialogPreference(private val context: Context, attrs: AttributeSet?
             .setPositiveButton(
                 "OK"
             ) { dialog: DialogInterface?, which: Int ->
-                val preferenceKey =
-                    key //You can update the SharedPreference with the key
-                if (progress != tmpValue) {
+                if (progress != tmpValue && tmpValue >= 0) {
                     progress = tmpValue
                 }
                 if (shouldPersist()) {

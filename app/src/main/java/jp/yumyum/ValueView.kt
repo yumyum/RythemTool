@@ -3,7 +3,6 @@ package jp.yumyum
 import net.yu_yum.utils.DisplayUtil
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Paint.Align
 import android.os.Handler
@@ -17,6 +16,7 @@ class ValueView(context: Context) : View(context) {
     private val MARGINE_UPDOWN: Int
     private val GUIDE_TOP_MARGINE: Int
     private val GUIDE_SIZE: Int
+    private val CENTER_RIGHT_MARGIN: Int
 
     private var mAverageBPM: Int = 0
     private var mTargetBPM: Int = 0
@@ -40,17 +40,22 @@ class ValueView(context: Context) : View(context) {
         mHandler = Handler()
         mPaint = Paint()
 
+        val systemBarMargin = 45
+
         TEXT_SIZE_LARGE = DisplayUtil.convertDPtoPX(context, 40)
         TEXT_SIZE_SMALL = DisplayUtil.convertDPtoPX(context, 20)
         MARGINE_RIGHTLEFT = DisplayUtil.convertDPtoPX(context, 5)
-        MARGINE_UPDOWN = DisplayUtil.convertDPtoPX(context, 40)
-        GUIDE_TOP_MARGINE = DisplayUtil.convertDPtoPX(context, 25)
+        MARGINE_UPDOWN = DisplayUtil.convertDPtoPX(context, 40 + systemBarMargin)
+        GUIDE_TOP_MARGINE = DisplayUtil.convertDPtoPX(context, 25 + systemBarMargin)
         GUIDE_SIZE = DisplayUtil.convertDPtoPX(context, 13)
+        CENTER_RIGHT_MARGIN = 200
     }
 
     override fun onDraw(canvas: Canvas) {
+        val textColor = resources.getColor(R.color.text_color, null)
+
         // 真ん中上部の今回のBPMの表示
-        mPaint.color = Color.BLACK
+        mPaint.color = textColor
         mPaint.textSize = TEXT_SIZE_LARGE.toFloat()
         mPaint.textAlign = Align.CENTER
         mPaint.isAntiAlias = true
@@ -61,6 +66,7 @@ class ValueView(context: Context) : View(context) {
         }
 
         // 左下の目標BPMの表示
+        mPaint.color = textColor
         mPaint.textSize = TEXT_SIZE_SMALL.toFloat()
         mPaint.textAlign = Align.LEFT
         if (mTargetBPM == 0) {
@@ -70,17 +76,18 @@ class ValueView(context: Context) : View(context) {
             canvas.drawText(mTargetBPM.toString(), MARGINE_RIGHTLEFT.toFloat(),
                     (height - TEXT_SIZE_SMALL).toFloat(), mPaint)
         }
-        // 右上の平均値BPMの表示
+        // 今回のBPMの横の平均値BPMの表示
+        mPaint.color = textColor
         mPaint.textAlign = Align.RIGHT
         if (mIsAverageMode) {
-            canvas.drawText(mCurrentBPM.toString(), (width - MARGINE_RIGHTLEFT).toFloat(), MARGINE_UPDOWN.toFloat(), mPaint)
+            canvas.drawText(mCurrentBPM.toString(), (width / 2).toFloat() + CENTER_RIGHT_MARGIN, MARGINE_UPDOWN.toFloat(), mPaint)
         } else {
-            canvas.drawText(mAverageBPM.toString(), (width - MARGINE_RIGHTLEFT).toFloat(), MARGINE_UPDOWN.toFloat(), mPaint)
+            canvas.drawText(mAverageBPM.toString(), (width / 2).toFloat() + CENTER_RIGHT_MARGIN, MARGINE_UPDOWN.toFloat(), mPaint)
         }
         if (mIsShowGuid) {
             // 円を描画する
             mPaint.style = Paint.Style.FILL
-            mPaint.color = resources.getColor(R.color.curcle_pink)
+            mPaint.color = resources.getColor(R.color.circle_pink, null)
             mPaint.textAlign = Align.CENTER
             mPaint.isAntiAlias = true
             canvas.drawCircle(width / 2 - TEXT_SIZE_LARGE * 1.5f, GUIDE_TOP_MARGINE.toFloat(), GUIDE_SIZE.toFloat(), mPaint)
@@ -157,9 +164,9 @@ class ValueView(context: Context) : View(context) {
     }
 
     fun setBufLen(len: Int) {
-        if (this.mBufLen != len) {
+        if (len >= 2 && this.mBufLen != len) {
             this.mBufLen = len
-            this.mBuf = LongArray(len)
+            this.mBuf = LongArray(mBufLen)
             mBufIndex = 0
         }
     }

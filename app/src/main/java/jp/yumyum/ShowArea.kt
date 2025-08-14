@@ -34,8 +34,10 @@ internal class ShowArea(context: Context, private val vv: ValueView) : Horizonta
     override fun onDraw(canvas: Canvas) {
         // graphViewが空なら（初めて呼び出されるなら）作成して、子供Viewとして登録
         if (graphView == null) {
-            graphView = GraphView(this.context, this.width,
-                    this.height, vv)
+            graphView = GraphView(
+                this.context, this.width,
+                this.height, vv
+            )
             this.addView(graphView)
             invalidate()
         }

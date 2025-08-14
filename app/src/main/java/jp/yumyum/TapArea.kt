@@ -30,7 +30,7 @@ internal class TapArea(context: Context, private val mShowArea: ShowArea) : View
     private var mLineColor: Int = 0
 
     init {
-        mLineColor = Color.parseColor("#dddddd")
+        mLineColor = resources.getColor(R.color.tap_area_line, null)
         TAP_AREA_TEXT = "Tap Here"
         TAP_TEXT_SIZE = DisplayUtil.convertDPtoPX(context, 40)
         FRAME_MARGINE = DisplayUtil.convertDPtoPX(context, 20)
@@ -84,17 +84,25 @@ internal class TapArea(context: Context, private val mShowArea: ShowArea) : View
         mHeight = height
         YLog.d("TapArea", "YUM width:$mWidth height:$mHeight")
 
-        mGradient = LinearGradient(0f, 0f, 0f, (mHeight / 2).toFloat(),
-                intArrayOf(-0x444445, -0x1), null,
-                Shader.TileMode.CLAMP)
-        mRect = RectF(FRAME_MARGINE.toFloat(), FRAME_MARGINE.toFloat(), (mWidth - FRAME_MARGINE).toFloat(), (mHeight - FRAME_MARGINE).toFloat())
+        mGradient = LinearGradient(
+            0f, 0f, 0f, (mHeight / 2).toFloat(),
+            resources.getColor(R.color.grad_top, null),
+            resources.getColor(R.color.grad_bottom, null),
+            Shader.TileMode.CLAMP
+        )
+        mRect = RectF(
+            FRAME_MARGINE.toFloat(),
+            FRAME_MARGINE.toFloat(),
+            (mWidth - FRAME_MARGINE).toFloat(),
+            (mHeight - FRAME_MARGINE).toFloat()
+        )
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 // タップ中の枠の色
-                mLineColor = Color.parseColor("#bbbbbb")
+                mLineColor = resources.getColor(R.color.tap_area_line_taped)
                 this.invalidate()
                 // タップされた時刻の取得
                 val eTime = event.eventTime
@@ -103,7 +111,7 @@ internal class TapArea(context: Context, private val mShowArea: ShowArea) : View
             }
             MotionEvent.ACTION_UP -> {
                 // タップを離したときの枠の色
-                mLineColor = Color.parseColor("#dddddd")
+                mLineColor = resources.getColor(R.color.tap_area_line, null)
                 this.invalidate()
             }
         }
